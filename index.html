@@ -4,173 +4,8 @@
   <title>Twisted FTW</title>
   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  <link href='style.css' rel='stylesheet' type='text/css'>
   <style>
-  * {
-    font-family: 'Open Sans';
-    box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    -webkit-box-sizing: border-box;
-  }
-  a {
-    color: inherit;
-  }
-  a:hover {
-    opacity: 0.8;
-  }
-  div {
-    color: #fff;
-  }
-  body {
-    background: #2c3e50;
-  }
-  @-webkit-keyframes rainbow {
-    0% {
-      color: rgb(52, 152, 219);
-    }
-    25% {
-      color: rgb(46, 204, 113);
-    }
-    50% {
-      color: rgb(241, 196, 15);
-    }
-    75% {
-      color: rgb(192, 57, 43);
-    }
-  }
-  @-moz-keyframes rainbow {
-    0% {
-      color: rgb(52, 152, 219);
-    }
-    25% {
-      color: rgb(46, 204, 113);
-    }
-    50% {
-      color: rgb(241, 196, 15);
-    }
-    75% {
-      color: rgb(192, 57, 43);
-    }
-  }
-  .main-container {
-    margin: 0 auto;
-    width: 80%;
-    text-align: center;
-  }
-  .main-container * {
-    text-align: left;
-  }
-  .hero {
-    text-align: left;
-    margin-bottom: 4em;
-  }
-  .hero .title {
-    font-size: 10em;
-    color: #fff;
-    display: inline-block;
-  }
-  .hero .subtitle-container {
-    display: inline-block;
-    position: relative;
-  }
-  .hero .subtitle {
-    font-size: 3em;
-    color: #3498DB;
-    display: inline-block;
-    position: absolute;
-    background: rgba(52, 73, 94, 0.9);
-    padding: 0.1em 1.6em;
-    top: -0.2em;
-    left: -6em;
-    -webkit-transform: rotate(-5deg);
-    -webkit-animation: rainbow 60s infinite;
-    -moz-transform: rotate(-5deg);
-    -moz-animation: rainbow 60s infinite;
-  }
-  .circle {
-    border-radius: 50%;
-  }
-  h2 {
-    font-size: 2em;
-  }
-  .spotlight {
-    margin: 1em 0em;
-  }
-  .spotlight h2 {
-    color: rgb(189, 195, 199);
-  }
-  .spotlight .whatyoucando {
-    color: rgb(241, 196, 15);
-  }
-  .spotlight button.nav {
-    background: rgb(52, 73, 94);
-    color: rgb(127, 140, 141);
-  }
-  .section {
-    background: rgb(52, 73, 94);
-    padding: 1em 2em;
-    margin: 1em;
-  }
-  .section h2 {
-    margin-top: 0;
-  }
-  .section ul {
-    list-style: none;
-    margin-left: 0;
-    padding-left: 0;
-  }
-  .section ul li a {
-    font-size: 1.2em;
-    text-decoration: none;
-    color: rgb(236, 240, 241);
-    padding: 0.2em 0.6em;
-    transition: background 0.2s;
-  }
-  .section ul li a:hover {
-    background: rgba(255, 255, 255, 0.2);
-    scolor: rgb(189, 195, 199);
-    opacity: 1;
-  }
-  .section ul li a:visited {
-    color: rgb(149, 165, 166);
-  }
-  pre.code {
-    border-radius: 2px;
-    background: rgb(236, 240, 241);
-    padding: 1em;
-    color: rgb(44, 62, 80);
-  }
-
-  .section.core {
-    background: rgb(231, 76, 60);
-  }
-  .section.web {
-    background: rgb(52, 152, 219);
-  }
-  .section.utilities {
-    background: rgb(230, 126, 34);
-  }
-  .section.test {
-    background: rgb(155, 89, 182);
-  }
-  .section.network {
-    background: rgb(241, 196, 15);
-  }
-  .section.rpc {
-    background: rgb(46, 204, 113);
-  }
-  .section.database {
-    background: rgb(41, 128, 185);
-  }
-
-  .footer {
-    position: absolute;
-    bottom: 0px;
-    left: 0px;
-    padding: 1em;
-    color: rgb(127, 140, 141);
-  }
-
-
   div {
     border: 0px solid #f00;
   }
@@ -187,13 +22,23 @@
     </div>
 
     <div class="pure-u-1 spotlight" ng-controller="CarouselCtrl">
-      <h2>#{{ index+1 }} With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span>:</h2>
-      <div class="spotlight-guts" ng-bind-html-unsafe="showing.content">
-        
+      <div class="content" ng-class="{expanded: expanded}">
+        <h2>#{{ index+1 }} With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span>:</h2>
+        <div class="spotlight-guts" ng-bind-html-unsafe="showing.content">
+          
+        </div>
       </div>
-      <button class="pure-button nav" ng-click="prev()">&lt;</button>
-      <button class="pure-button nav" ng-click="paused=!paused">{{ (paused && 'Resume' || 'Pause') }}</button>
-      <button class="pure-button nav" ng-click="next()">&gt;</button>
+      <div class="pure-g controls">
+        <div class="pure-u-1-2">
+          <button class="pure-button nav" ng-click="prev()">&lt;</button>
+          <button class="pure-button nav" ng-click="paused=!paused">{{ (paused && 'Resume' || 'Pause') }}</button>
+          <button class="pure-button nav" ng-click="next()">&gt;</button>
+        </div>
+
+        <div class="pure-u-1-2 right">
+          <button class="pure-button nav" ng-click="expanded=!expanded">{{ (expanded && 'Collapse' || 'Expand') }}</button>
+        </div>
+      </div>
     </div>
 
     <div class="pure-u-1">
@@ -250,8 +95,13 @@
 
   </div>
 
-  <div class="footer">
-    This site is not affiliated with <a href="http://twistedmatrix.com/">Twisted Matrix Laboritories</a>.
+  <div class="footer pure-g-r">
+    <div class="pure-u-1-2">
+      This site is not affiliated with <a href="http://twistedmatrix.com/">Twisted Matrix Laboritories</a>.
+    </div>
+    <div class="pure-u-1-2 right">
+      <a href="https://github.com/iffy/twistedftw/tree/gh-pages">Fork me on GitHub</a>
+    </div>
   </div>
 
   <template name="irc-server.title">host your own IRC server</template>
