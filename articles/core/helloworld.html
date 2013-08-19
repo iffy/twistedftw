@@ -1,3 +1,19 @@
 <title>Hello, world!</title>
-<div>Hello</div>
+
+<p>
+    Here is some runnable Python using the Twisted library:
+<pre>from twisted.internet.task import react, deferLater
+
+def printMessage():
+    print 'Hello, world!'
+
+def main(reactor):
+    return deferLater(reactor, 1, printMessage)
+
+react(main)</pre>
+
+If you run this program, it will wait 1 second, print <code>'Hello, world!'</code>, then exit with exit code 0
+</p>
+
+<h2>This is a Walrus</h2>
 <img src="http://images.nationalgeographic.com/wpf/media-live/photos/000/007/cache/walrus_747_600x450.jpg">
