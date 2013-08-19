@@ -1,1 +1,231 @@
-Does it work?
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Twisted FTW</title>
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.2.1/pure-min.css">
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  <style>
+  * {
+    font-family: 'Open Sans';
+    box-sizing: border-box;
+    -webkit-box-sizing: border-box;
+  }
+  div {
+    color: #fff;
+  }
+  body {
+    background: #2c3e50;
+  }
+  @-webkit-keyframes rainbow {
+    0% {
+      color: rgb(52, 152, 219);
+    }
+    25% {
+      color: rgb(46, 204, 113);
+    }
+    50% {
+      color: rgb(241, 196, 15);
+    }
+    75% {
+      color: rgb(192, 57, 43);
+    }
+  }
+  .main-container {
+    margin: 0 auto;
+    width: 80%;
+    text-align: center;
+  }
+  .main-container * {
+    text-align: left;
+  }
+  .hero {
+    text-align: left;
+    margin-bottom: 4em;
+  }
+  .hero .title {
+    font-size: 10em;
+    color: #fff;
+    display: inline-block;
+  }
+  .hero .subtitle-container {
+    display: inline-block;
+    position: relative;
+  }
+  .hero .subtitle {
+    font-size: 3em;
+    color: #3498DB;
+    display: inline-block;
+    position: absolute;
+    background: rgba(52, 73, 94, 0.9);
+    padding: 0.1em 1.6em;
+    top: -0.2em;
+    left: -6em;
+    -webkit-transform: rotate(-5deg);
+    -webkit-animation: rainbow 60s infinite;
+  }
+  .circle {
+    border-radius: 50%;
+  }
+  h2 {
+    font-size: 2em;
+  }
+  .spotlight {
+    margin: 1em 0em;
+  }
+  .spotlight h2 {
+    color: rgb(189, 195, 199);
+  }
+  .spotlight .whatyoucando {
+    color: rgb(241, 196, 15);
+  }
+  .section {
+    background: rgb(52, 73, 94);
+    padding: 1em 2em;
+    margin: 1em;
+  }
+  .section h2 {
+    margin-top: 0;
+  }
+  .section ul {
+    list-style: none;
+    margin-left: 0;
+    padding-left: 0;
+  }
+  .section ul li a {
+    font-size: 1.2em;
+    text-decoration: none;
+    color: rgb(236, 240, 241);
+    padding: 0.2em 0.6em;
+    transition: background 0.2s;
+  }
+  .section ul li a:hover {
+    background: rgba(255, 255, 255, 0.2);
+    scolor: rgb(189, 195, 199);
+  }
+  .section ul li a:visited {
+    color: rgb(149, 165, 166);
+  }
+  pre.code {
+    border-radius: 2px;
+    background: rgb(236, 240, 241);
+    padding: 1em;
+    color: rgb(44, 62, 80);
+  }
+
+  .section.core {
+    background: rgb(231, 76, 60);
+  }
+  .section.web {
+    background: rgb(52, 152, 219);
+  }
+  .section.utilities {
+    background: rgb(230, 126, 34);
+  }
+  .section.test {
+    background: rgb(155, 89, 182);
+  }
+  .section.network {
+    background: rgb(241, 196, 15);
+  }
+  .section.rpc {
+    background: rgb(46, 204, 113);
+  }
+  .section.database {
+    background: rgb(41, 128, 185);
+  }
+
+
+  div {
+    border: 0px solid #f00;
+  }
+  </style>
+</head>
+<body ng-app="main">
+  <div class="pure-g main-container">
+    
+    <div class="pure-u-1 hero">
+      <div class="title">Twisted</div>
+      <div class="subtitle-container">
+        <div class="subtitle"><nobr>for the win!</nobr></div>
+      </div>
+    </div>
+
+    <div class="pure-u-1 spotlight" ng-controller="CarouselCtrl">
+      <h2>With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span>:</h2>
+      <div class="spotlight-guts" ng-bind-html-unsafe="showing.content">
+        
+      </div>
+    </div>
+
+    <div class="pure-u-1">
+      <div class="pure-g">
+        
+        <div class="pure-u-1-3">
+          <div class="section core">
+            <h2>Core</h2>
+            <ul>
+              <li><a href="hello.html">Hello world</a></li>
+            </ul>
+          </div>
+        </div>
+        
+        <div class="pure-u-1-3">
+          <div class="section web">
+            <h2>Web (HTTP)</h2>
+          </div>
+        </div>
+        
+        <div class="pure-u-1-3">
+          <div class="section utilities">
+            <h2>Utilities</h2>
+          </div>
+        </div>
+
+
+        <div class="pure-u-1-3">
+          <div class="section test">
+            <h2>Test</h2>
+          </div>
+        </div>
+
+        <div class="pure-u-1-3">
+          <div class="section network">
+            <h2>Network</h2>
+          </div>
+        </div>
+        
+        <div class="pure-u-1-3">
+          <div class="section rpc">
+            <h2>RPC</h2>
+          </div>
+        </div>
+
+        <div class="pure-u-1-3">
+          <div class="section database">
+            <h2>SQL Database</h2>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <template name="irc-server.title">host your own IRC server</template>
+  <template name="irc-server.html">
+    <pre class="code">twistd -n words --irc-port tcp:8400 --group roomname --auth memory:joe:joespassword</pre>
+  </template>
+
+  <template name="staticweb-server.title">run a static webserver</template>
+  <template name="staticweb-server.html">
+    <pre class="code">twistd -n web --port tcp:8400 --path /tmp</pre>
+  </template>
+
+  <template name="run-trial.title">run unit tests in parallel</template>
+  <template name="run-trial.html">
+    <pre class="code">trial -j 4 path/to/test_file.py</pre>
+  </template>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+  <script src="mainapp.js"></script>
+</body>
+</html>
