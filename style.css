@@ -4,6 +4,10 @@
     -moz-box-sizing: border-box;
     -webkit-box-sizing: border-box;
   }
+  html,
+  body {
+    height: 100%;
+  }
   a {
     color: inherit;
   }
@@ -135,11 +139,10 @@
   }
   .section ul li a:hover {
     background: rgba(255, 255, 255, 0.2);
-    scolor: rgb(189, 195, 199);
     opacity: 1;
   }
   .section ul li a:visited {
-    color: rgb(149, 165, 166);
+    color: rgb(255, 255, 255, 0.8);
   }
   pre.code {
     border-radius: 2px;
@@ -148,25 +151,25 @@
     color: rgb(44, 62, 80);
   }
 
-  .section.core {
+  .section-core {
     background: rgb(231, 76, 60);
   }
-  .section.web {
+  .section-web {
     background: rgb(52, 152, 219);
   }
-  .section.utilities {
+  .section-utilities {
     background: rgb(230, 126, 34);
   }
-  .section.test {
+  .section-test {
     background: rgb(155, 89, 182);
   }
-  .section.network {
+  .section-network {
     background: rgb(241, 196, 15);
   }
-  .section.rpc {
+  .section-rpc {
     background: rgb(46, 204, 113);
   }
-  .section.database {
+  .section-database {
     background: rgb(41, 128, 185);
   }
 

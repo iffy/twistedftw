@@ -1,0 +1,44 @@
+.page {
+    min-height: 100%;
+}
+.sidebar {
+    background: rgb(52, 73, 94);
+    min-height: 100%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+.sidebar ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+.sidebar ul li a {
+    text-decoration: none;
+    padding: 1em 2em;
+    display: block;
+}
+.article {
+    min-height: 100%;
+}
+.article-wrapper {
+    margin: 2em;
+    padding: 2em;
+    background: rgb(236, 240, 241);
+}
+.article-wrapper,
+.article-wrapper * {
+    color: rgb(44, 62, 80);
+}
+.article-wrapper h1 {
+    margin-top: 0;
+}
+
+
+
+
+
+@media (max-width: 767px) {
+    .article-wrapper {
+        margin: 0;
+    }
+}
