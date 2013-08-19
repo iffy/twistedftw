@@ -18,6 +18,7 @@ main.controller('CarouselCtrl', function($scope, $timeout, $templateCache) {
         'run-trial',
     ];
     $scope.index = 0;
+    $scope.paused = false;
 
     $scope.next = function() {
         $scope.index += 1;
@@ -39,7 +40,10 @@ main.controller('CarouselCtrl', function($scope, $timeout, $templateCache) {
     })
 
     $scope.fuse = function() {
-        $timeout(function() {
+        return $timeout(function() {
+            if ($scope.paused) {
+                return;
+            }
             $scope.next();
         }, 5000).then(function() {
             $scope.fuse();
