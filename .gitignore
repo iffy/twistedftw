@@ -1,3 +1,4 @@
 *.pyc
 twistd.pid
 twistd.log*
+_trial_temp/
