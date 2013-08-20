@@ -12,7 +12,9 @@
     color: inherit;
   }
   a:hover {
+    color: inherit;
     opacity: 0.8;
+    text-decoration: none;
   }
   div {
     color: #fff;
@@ -174,10 +176,6 @@
   }
 
   .footer {
-    position: absolute;
-    width: 100%;
-    bottom: 0px;
-    left: 0px;
     padding: 1em;
   }
   .footer,
