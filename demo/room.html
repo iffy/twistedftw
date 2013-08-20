@@ -40,7 +40,8 @@
       'status': [],
       'who': [],
       'name': [],
-      'd': []
+      'd': [],
+      'error': []
     };
     this.listenFor = function(eventType, handler) {
       this.handlers[eventType].push(handler);
@@ -53,16 +54,20 @@
         });
       })
     }
-    this._handleData = function(eventType, source) {
+    this._handleData = function(eventType, source, parsejson) {
       source.addEventListener(eventType, function(d) {
-        this._gotData(eventType, angular.fromJson(d.data));
+        var data = d;
+        if (parsejson) {
+          data = angular.fromJson(d.data);
+        }
+        this._gotData(eventType, data);
       }.bind(this))
     }
 
-    this._handleData('status', EventSource);
-    this._handleData('name', EventSource);
-    this._handleData('who', EventSource);
-    this._handleData('d', EventSource);
+    this._handleData('status', EventSource, true);
+    this._handleData('name', EventSource, true);
+    this._handleData('who', EventSource, true);
+    this._handleData('d', EventSource, true);
     this._handleData('error', EventSource);
 
     return this;
@@ -89,7 +94,10 @@
       } else if (msg.event == 'leave') {
         ret.wholist.splice(ret.wholist.indexOf(msg.who), 1);
       }
-    })
+    });
+    Events.listenFor('error', function(msg) {
+      // What do we do when the server is dead?
+    });
     return ret;
   });
 
