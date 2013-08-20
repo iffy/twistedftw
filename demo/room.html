@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title></title>
+</head>
+<body>
+  Hey <a href="/start">Start again</a>
+  <script>
+  var source = new EventSource(window.location.pathname + '/events');
+  source.addEventListener('status', function(d) {
+    console.log('got status');
+    console.log(d.data);
+  })
+  source.addEventListener('who', function(d) {
+    console.log('got who');
+    console.log(d.data);
+  })
+  source.addEventListener('d', function(d) {
+    console.log('got data');
+    console.log(d.data);
+  })
+  </script>
+</body>
+</html>

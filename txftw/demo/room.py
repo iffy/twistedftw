@@ -8,7 +8,7 @@ from uuid import uuid4
 
 class Room(object):
     """
-    I am a room where things can gather and pass around messages.
+    I am a room where named things can gather and pass around messages.
     """
 
 
@@ -22,12 +22,12 @@ class Room(object):
 
         @param name: Name of the thing entering this room.  This must be unique
             within this room.
-        @param thing: Some object with C{setRoom(room)} and
+        @param thing: Some object with C{setRoom(room, name)} and
             C{messageReceived(message)} methods.
         """
         if name in self._contents:
             raise AlreadyInTheRoom(name)
-        thing.setRoom(self)
+        thing.setRoom(self, name)
         self._contents[name] = thing
         self.broadcast({
             'event': 'enter',
@@ -43,7 +43,7 @@ class Room(object):
             thing = self._contents.pop(name)
         except KeyError:
             raise NotInRoom(name)
-        thing.setRoom(None)
+        thing.setRoom(None, name)
         self.broadcast({
             'event': 'leave',
             'who': name,

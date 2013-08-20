@@ -16,7 +16,7 @@ class RoomTest(TestCase):
         thing = MagicMock()
 
         room.enter('name', thing)
-        thing.setRoom.assert_called_once_with(room)
+        thing.setRoom.assert_called_once_with(room, 'name')
         self.assertEqual(room.contents(), {'name': thing})
 
 
@@ -42,7 +42,7 @@ class RoomTest(TestCase):
         thing.setRoom.reset_mock()
 
         room.leave('thing')
-        thing.setRoom.assert_called_once_with(None)
+        thing.setRoom.assert_called_once_with(None, 'thing')
         self.assertEqual(room.contents(), {})
 
 
@@ -109,7 +109,7 @@ class RoomTest(TestCase):
             'event': 'kick',
             'kicked': 't1',
         })
-        thing1.setRoom.assert_called_once_with(None)
+        thing1.setRoom.assert_called_once_with(None, 't1')
         self.assertEqual(room.contents(), {'t2': thing2})
 
 
