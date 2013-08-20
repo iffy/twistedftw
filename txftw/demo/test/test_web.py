@@ -49,7 +49,7 @@ class WebRoomMemberTest(TestCase):
 
         # finish the request
         request_done.callback('foo')
-        room.leave.assert_called_once_with(guy)
+        room.leave.assert_called_once_with('bar')
 
 
     def test_requestFinished_noRoom(self):

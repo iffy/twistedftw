@@ -1,6 +1,7 @@
 from twisted.trial.unittest import TestCase
 from mock import MagicMock, create_autospec
 
+from txftw.demo import message
 from txftw.demo.room import Room, Building, NotInRoom
 
 
@@ -80,16 +81,10 @@ class RoomTest(TestCase):
         thing2 = MagicMock()
         
         room.enter('t2', thing2)
-        thing1.messageReceived.assert_any_call({
-            'event': 'enter',
-            'who': 't2',
-        })
+        thing1.messageReceived.assert_any_call(message.enter('t2'))
 
         room.leave('t2')
-        thing1.messageReceived.assert_any_call({
-            'event': 'leave',
-            'who': 't2',
-        })
+        thing1.messageReceived.assert_any_call(message.leave('t2'))
 
 
     def test_kick(self):
@@ -105,10 +100,8 @@ class RoomTest(TestCase):
         room.enter('t2', thing2)
 
         room.kick('t1')
-        thing2.messageReceived.assert_any_call({
-            'event': 'kick',
-            'kicked': 't1',
-        })
+        thing2.messageReceived.assert_any_call(message.kick('t1'))
+        
         thing1.setRoom.assert_called_once_with(None, 't1')
         self.assertEqual(room.contents(), {'t2': thing2})
 

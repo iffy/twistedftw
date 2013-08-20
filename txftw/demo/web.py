@@ -4,6 +4,7 @@ from klein import Klein
 from twisted.web.static import File
 from twisted.internet import defer
 
+from txftw.demo import message
 from txftw.demo.room import AlreadyInTheRoom
 
 
@@ -83,15 +84,11 @@ class DemoApp(object):
             return None
 
         data = json.loads(request.content.read())
-        message = data.get('msg', '')
-        name = data.get('name', '')
+        msg = data.get('msg', '')
+        who = data.get('who', '')
 
         request.setHeader('Content-Type', 'application/json')
-        room.broadcast({
-            'event': 'msg',
-            'msg': message,
-            'name': name,
-        })
+        room.broadcast(message.msg(msg, who))
 
 
 
@@ -124,8 +121,8 @@ class WebRoomMember(object):
             self.room.leave(self.name)
 
 
-    def messageReceived(self, message):
+    def messageReceived(self, msg):
         if self.request_alive:
-            self.request.write(sseMsg('d', message))
+            self.request.write(sseMsg('d', msg))
 
 

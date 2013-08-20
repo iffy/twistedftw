@@ -7,6 +7,7 @@ from twisted.python.filepath import FilePath
 
 
 from txftw.demo.room import Building
+from txftw.demo.telnet import DemoFactory
 from txftw.demo.web import DemoApp
 
 
@@ -18,6 +19,9 @@ class Options(usage.Options):
             "string endpoint description for the webserver to listen on"),
         ("web-file-root", "f", "demo",
             "path to static files to be served"),
+
+        ('telnet-endpoint', 't', 'tcp:8401',
+            "String endpoint description for the telnet server to listen on"),
     ]
 
 
@@ -28,15 +32,22 @@ def makeService(options):
     # common
     building = Building()
 
+    # telnet
+    endpoint = endpoints.serverFromString(reactor, options['telnet-endpoint'])
+    factory = DemoFactory(building)
+    telnet_service = internet.StreamServerEndpointService(endpoint, factory)
+    telnet_service.setName('Telnet server')
+
     # web
     endpoint = endpoints.serverFromString(reactor, options['web-endpoint'])
     web_app = DemoApp(FilePath(options['web-file-root']), building)
     site = Site(web_app.app.resource())
     web_service = internet.StreamServerEndpointService(endpoint, site)
-    web_service.setName('Web Server')
+    web_service.setName('Web server')
 
     # tie it all together
     ms = service.MultiService()
     web_service.setServiceParent(ms)
+    telnet_service.setServiceParent(ms)
 
     return ms

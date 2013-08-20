@@ -15,7 +15,7 @@
   <div class="chatbox" ng-controller="ChatBoxCtrl">
     <div class="history" stick-to-bottom="messages">
       <div ng-repeat="m in messages">
-        <span>{{ m.name }}:</span>
+        <span>{{ m.who }}:</span>
         <span>{{ m.msg }}</span>
       </div>
     </div>
@@ -153,7 +153,7 @@
       // XXX use $location instead
       var url = window.location.pathname + '/say';
       $scope.name = Data.user.name;
-      $http.post(url, {'msg': msg, 'name': $scope.name})
+      $http.post(url, {'msg': msg, 'who': $scope.name})
     }
 
     Events.listenFor('d', function(msg) {

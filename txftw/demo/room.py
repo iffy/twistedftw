@@ -4,6 +4,8 @@ class NotInRoom(Exception): pass
 
 from uuid import uuid4
 
+from txftw.demo import message
+
 
 
 class Room(object):
@@ -29,10 +31,7 @@ class Room(object):
             raise AlreadyInTheRoom(name)
         thing.setRoom(self, name)
         self._contents[name] = thing
-        self.broadcast({
-            'event': 'enter',
-            'who': name,
-        })
+        self.broadcast(message.enter(name))
 
 
     def leave(self, name):
@@ -44,20 +43,14 @@ class Room(object):
         except KeyError:
             raise NotInRoom(name)
         thing.setRoom(None, name)
-        self.broadcast({
-            'event': 'leave',
-            'who': name,
-        })
+        self.broadcast(message.leave(name))
 
 
     def kick(self, name):
         """
         The thing named C{name} is being kicked out of the room.
         """
-        self.broadcast({
-            'event': 'kick',
-            'kicked': name,
-        })
+        self.broadcast(message.kick(name))
         self.leave(name)
 
 
