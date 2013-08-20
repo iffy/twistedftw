@@ -67,7 +67,7 @@ class DemoApp(object):
                 room.enter(name, guy)
                 break
             except AlreadyInTheRoom:
-                name = name + str(num)
+                name = 'web' + str(num)
                 num += 1
         request.write(sseMsg('who', list(room.contents())))
         request.write(sseMsg('name', name))
@@ -119,7 +119,6 @@ class WebRoomMember(object):
 
 
     def _requestFinished(self, response):
-        print 'request finished', response
         self.request_alive = False
         if self.room:
             self.room.leave(self.name)

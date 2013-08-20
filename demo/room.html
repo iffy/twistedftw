@@ -10,7 +10,7 @@
   </style>
 </head>
 <body ng-app="ftwdemo">
-  Hey <a href="/start">Start again</a>
+  <a href="/start">Start again</a>
 
   <div class="chatbox" ng-controller="ChatBoxCtrl">
     <div class="history" stick-to-bottom="messages">
@@ -20,6 +20,11 @@
       </div>
     </div>
     <input type="text" ng-model="messageinput" enter="say(messageinput); messageinput=''" placeholder="type a message (press Enter to send)" size="40">
+  </div>
+
+  <div ng-controller="ConnectionCtrl">
+    <h2>Connected users</h2>
+    <div ng-repeat="name in data.wholist">{{ name }}</div>
   </div>
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
@@ -58,18 +63,34 @@
     this._handleData('name', EventSource);
     this._handleData('who', EventSource);
     this._handleData('d', EventSource);
+    this._handleData('error', EventSource);
 
     return this;
   })
 
   app.factory('Data', function(Events) {
-    var data = {
-      data: {}
+    var ret = {
+      user: {},
+      wholist: []
     };
     Events.listenFor('name', function(name) {
-      data.data.name = name;
+      ret.user.name = name;
     })
-    return data;
+    Events.listenFor('who', function(wholist) {
+      console.log(wholist);
+      ret.wholist.length = 0;
+      angular.forEach(wholist, function(item) {
+        ret.wholist.push(item);
+      })
+    })
+    Events.listenFor('d', function(msg) {
+      if (msg.event == 'enter') {
+        ret.wholist.push(msg.who);
+      } else if (msg.event == 'leave') {
+        ret.wholist.splice(ret.wholist.indexOf(msg.who), 1);
+      }
+    })
+    return ret;
   });
 
   app.directive('enter', function() {
@@ -120,13 +141,19 @@
     }
   });
 
+  app.controller('ConnectionCtrl', function($scope, Data) {
+    $scope.data = Data;
+  })
+
 
   app.controller('ChatBoxCtrl', function($scope, $http, Events, Data) {
     $scope.messages = [];
+    $scope.name = Data.user.name;
     $scope.say = function(msg) {
       // XXX use $location instead
       var url = window.location.pathname + '/say';
-      $http.post(url, {'msg': msg, 'name': Data.data.name})
+      $scope.name = Data.user.name;
+      $http.post(url, {'msg': msg, 'name': $scope.name})
     }
 
     Events.listenFor('d', function(msg) {
