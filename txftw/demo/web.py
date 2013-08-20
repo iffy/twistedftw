@@ -61,13 +61,16 @@ class DemoApp(object):
 
         guy = WebRoomMember(request)
         name = 'web'
+        num = 1
         while True:
             try:
                 room.enter(name, guy)
                 break
             except AlreadyInTheRoom:
-                name = name + '_'
+                name = name + str(num)
+                num += 1
         request.write(sseMsg('who', list(room.contents())))
+        request.write(sseMsg('name', name))
         return defer.Deferred()
 
 
@@ -78,6 +81,17 @@ class DemoApp(object):
         except KeyError:
             request.setResponseCode(404)
             return None
+
+        data = json.loads(request.content.read())
+        message = data.get('msg', '')
+        name = data.get('name', '')
+
+        request.setHeader('Content-Type', 'application/json')
+        room.broadcast({
+            'event': 'msg',
+            'msg': message,
+            'name': name,
+        })
 
 
 

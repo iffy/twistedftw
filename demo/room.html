@@ -2,23 +2,139 @@
 <html>
 <head>
   <title></title>
+  <style>
+  .chatbox .history {
+    height: 6em;
+    overflow-y: auto;
+  }
+  </style>
 </head>
-<body>
+<body ng-app="ftwdemo">
   Hey <a href="/start">Start again</a>
+
+  <div class="chatbox" ng-controller="ChatBoxCtrl">
+    <div class="history" stick-to-bottom="messages">
+      <div ng-repeat="m in messages">
+        <span>{{ m.name }}:</span>
+        <span>{{ m.msg }}</span>
+      </div>
+    </div>
+    <input type="text" ng-model="messageinput" enter="say(messageinput); messageinput=''" placeholder="type a message (press Enter to send)" size="40">
+  </div>
+
+  <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
   <script>
-  var source = new EventSource(window.location.pathname + '/events');
-  source.addEventListener('status', function(d) {
-    console.log('got status');
-    console.log(d.data);
+  var app = angular.module('ftwdemo', []);
+
+  app.factory('EventSource', function() {
+    return new EventSource(window.location.pathname + '/events');
   })
-  source.addEventListener('who', function(d) {
-    console.log('got who');
-    console.log(d.data);
+
+  app.factory('Events', function($rootScope, EventSource) {
+    this.handlers = {
+      'status': [],
+      'who': [],
+      'name': [],
+      'd': []
+    };
+    this.listenFor = function(eventType, handler) {
+      this.handlers[eventType].push(handler);
+    }
+
+    this._gotData = function(eventType, data) {
+      angular.forEach(this.handlers[eventType], function(handler) {
+        $rootScope.$apply(function() {
+          handler(data);
+        });
+      })
+    }
+    this._handleData = function(eventType, source) {
+      source.addEventListener(eventType, function(d) {
+        this._gotData(eventType, angular.fromJson(d.data));
+      }.bind(this))
+    }
+
+    this._handleData('status', EventSource);
+    this._handleData('name', EventSource);
+    this._handleData('who', EventSource);
+    this._handleData('d', EventSource);
+
+    return this;
   })
-  source.addEventListener('d', function(d) {
-    console.log('got data');
-    console.log(d.data);
+
+  app.factory('Data', function(Events) {
+    var data = {
+      data: {}
+    };
+    Events.listenFor('name', function(name) {
+      data.data.name = name;
+    })
+    return data;
+  });
+
+  app.directive('enter', function() {
+    return {
+      restrict: 'A',
+      link: function(scope, element, attrs) {
+        element.bind('keyup', function(ev) {
+          if (ev.keyCode == 13) {
+            scope.$apply(attrs.enter);
+          }
+        })
+      }
+    }
   })
+
+  app.directive('stickToBottom', function() {
+    return {
+      restrict: 'A',
+      scope: {
+        'messages': '=stickToBottom'
+      },
+      link: function(scope, element, attrs) {
+        var el = element[0];
+        scope.stick = true;
+
+        element.bind('scroll', function() {
+          scope.adjustStick();
+        });
+
+        scope.$watch('messages', function() {
+          if (scope.stick) {
+            // move to bottom
+            el.scrollTop = el.scrollHeight - el.offsetHeight;
+          }
+        }, true);
+
+        scope.adjustStick = function() {
+          if (el.scrollTop + el.offsetHeight == el.scrollHeight) {
+            // scrolled to the bottom
+            scope.stick = true;
+          } else {
+            // not scrolled to the bottom
+            scope.stick = false;
+          }
+        }
+        scope.adjustStick();
+      }
+    }
+  });
+
+
+  app.controller('ChatBoxCtrl', function($scope, $http, Events, Data) {
+    $scope.messages = [];
+    $scope.say = function(msg) {
+      // XXX use $location instead
+      var url = window.location.pathname + '/say';
+      $http.post(url, {'msg': msg, 'name': Data.data.name})
+    }
+
+    Events.listenFor('d', function(msg) {
+      if (msg.event == 'msg') {
+        $scope.messages.push(msg);
+      }
+    })
+  });
   </script>
 </body>
 </html>
