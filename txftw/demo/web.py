@@ -31,6 +31,11 @@ class DemoApp(object):
         return '<a href="start">Start Demo</a>'
 
 
+    @app.route('/static', branch=True)
+    def static(self, request):
+        return File(self.file_root.path)
+
+
     @app.route('/start')
     def start(self, request):
         key = self.building.createRoom()

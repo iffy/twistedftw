@@ -1,0 +1,110 @@
+* {
+  font-family: 'Open Sans';
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+html,
+body {
+  height: 100%;
+}
+a {
+  color: inherit;
+}
+a:hover {
+  color: inherit;
+  opacity: 0.8;
+  text-decoration: none;
+}
+div {
+  color: #fff;
+}
+body {
+  background: #2c3e50;
+}
+h1,h2,h3,h4,h5 {
+  font-weight: lighter;
+}
+@-webkit-keyframes rainbow {
+  0% {
+    color: rgb(52, 152, 219);
+  }
+  25% {
+    color: rgb(46, 204, 113);
+  }
+  50% {
+    color: rgb(241, 196, 15);
+  }
+  75% {
+    color: rgb(192, 57, 43);
+  }
+}
+@-moz-keyframes rainbow {
+  0% {
+    color: rgb(52, 152, 219);
+  }
+  25% {
+    color: rgb(46, 204, 113);
+  }
+  50% {
+    color: rgb(241, 196, 15);
+  }
+  75% {
+    color: rgb(192, 57, 43);
+  }
+}
+
+/* copied from pure */
+@media (max-width: 767px) {
+  .section {
+    margin: 0;
+  }
+  .main-container {
+    width: 100%;
+  }
+  .spotlight {
+    padding: 1em;
+  }
+  .footer {
+    position: relative;
+  }
+  .footer .right {
+    text-align: left;
+  }
+  .hero {
+    text-align: center;
+  }
+  .hero .title {
+    font-size: 6em;
+  }
+  .hero .subtitle {
+    top: -0.2em;
+    left: -6em;
+    -webkit-transform: rotate(-5deg) scale(0.55);
+    -moz-transform: rotate(-5deg) scale(0.55);
+  }
+}
+
+@-webkit-keyframes appear {
+  0% {
+    -webkit-transform: scale(0) rotate(5deg);
+  }
+  50% {
+    -webkit-transform: scale(1.1) rotate(-5deg);
+  }
+  100% {
+    -webkit-transform: scale(1) rotate(0deg);
+  }
+}
+
+::-webkit-scrollbar {
+    width: 12px;
+}
+ 
+::-webkit-scrollbar-track {
+    background: rgb(52, 73, 94);
+}
+ 
+::-webkit-scrollbar-thumb {
+    background: rgb(41, 128, 185);
+}

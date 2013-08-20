@@ -1,175 +1,249 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title></title>
+  <title>Demo - Twisted FTW</title>
+  <link href="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/css/bootstrap.min.css" rel="stylesheet">
+  <script src="http://netdna.bootstrapcdn.com/bootstrap/3.0.0-rc2/js/bootstrap.min.js"></script>
+  <link href='http://fonts.googleapis.com/css?family=Open+Sans:300' rel='stylesheet' type='text/css'>
+  <link href='/static/css/style.css' rel='stylesheet' type='text/css'>
   <style>
+
   .chatbox .history {
-    height: 6em;
+    height: 12em;
+    background: rgb(52, 73, 94);
+    margin: 1em 0;
+    padding: 1em;
     overflow-y: auto;
   }
+  .chatbox .message {
+    padding: 0em;
+  }
+  .chatbox .message .who {
+    font-weight: bold;
+    white-space: pre;
+  }
+  .chatbox .message .msg {
+    white-space: pre;
+  }
+
+  .stage {
+    margin: 1em auto;
+    width: 400px;
+    height: 400px;
+    background: rgb(52, 73, 94);
+    border-radius: 50%;
+    line-height: 400px;
+    text-align: center;
+  }
+
+  .connection {
+    -webkit-animation: appear 0.5s;
+    float: left;
+    margin: 1em;
+    padding: 2em;
+    font-size: 2em;
+    background: rgb(46, 204, 113);
+  }
+  .connection:nth-child(5n) {
+    background: rgb(46, 204, 113);
+  }
+  .connection:nth-child(5n+1) {
+    background: rgb(52, 152, 219);
+  }
+  .connection:nth-child(5n+2) {
+    background: rgb(231, 76, 60);
+  }
+  .connection:nth-child(5n+3) {
+    background: rgb(241, 196, 15);
+  }
+  .connection:nth-child(5n+4) {
+    background: rgb(155, 89, 182);
+  }
+
   </style>
 </head>
 <body ng-app="ftwdemo">
   <a href="/start">Start again</a>
 
-  <div class="chatbox" ng-controller="ChatBoxCtrl">
-    <div class="history" stick-to-bottom="messages">
-      <div ng-repeat="m in messages">
-        <span>{{ m.who }}:</span>
-        <span>{{ m.msg }}</span>
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+
+      <h2>Multiple Protocol Chat Demo</h2>
+
+      <div class="chatbox" ng-controller="ChatBoxCtrl">
+        <div class="history" stick-to-bottom="messages">
+          <div ng-repeat="m in messages" class="message">
+            <span class="who">{{ m.who }}:</span>
+            <span class="msg">{{ m.msg }}</span>
+          </div>
+        </div>
+        <input autofocus type="text" ng-model="messageinput" enter="say(messageinput); messageinput=''" placeholder="type a message (press Enter to send)" class="form-control">
       </div>
+
+      <div ng-controller="ConnectionCtrl">
+        <h2>Connected Things</h2>
+        <div class="connections">
+          <div ng-repeat="name in data.wholist" class="connection">{{ name }}</div>
+        </div>
+      </div>
+
     </div>
-    <input type="text" ng-model="messageinput" enter="say(messageinput); messageinput=''" placeholder="type a message (press Enter to send)" size="40">
   </div>
 
-  <div ng-controller="ConnectionCtrl">
-    <h2>Connected users</h2>
-    <div ng-repeat="name in data.wholist">{{ name }}</div>
-  </div>
+
+
+
+
 
   <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.1.5/angular.min.js"></script>
-  <script>
-  var app = angular.module('ftwdemo', []);
+<script>
+var app = angular.module('ftwdemo', []);
 
-  app.factory('EventSource', function() {
-    return new EventSource(window.location.pathname + '/events');
-  })
+app.factory('EventSource', function() {
+  return new EventSource(window.location.pathname + '/events');
+})
 
-  app.factory('Events', function($rootScope, EventSource) {
-    this.handlers = {
-      'status': [],
-      'who': [],
-      'name': [],
-      'd': [],
-      'error': []
-    };
-    this.listenFor = function(eventType, handler) {
-      this.handlers[eventType].push(handler);
-    }
+app.factory('Events', function($rootScope, EventSource) {
+  this.handlers = {
+    'status': [],
+    'who': [],
+    'name': [],
+    'd': [],
+    'error': []
+  };
+  this.listenFor = function(eventType, handler) {
+    this.handlers[eventType].push(handler);
+  }
 
-    this._gotData = function(eventType, data) {
-      angular.forEach(this.handlers[eventType], function(handler) {
-        $rootScope.$apply(function() {
-          handler(data);
-        });
-      })
-    }
-    this._handleData = function(eventType, source, parsejson) {
-      source.addEventListener(eventType, function(d) {
-        var data = d;
-        if (parsejson) {
-          data = angular.fromJson(d.data);
-        }
-        this._gotData(eventType, data);
-      }.bind(this))
-    }
-
-    this._handleData('status', EventSource, true);
-    this._handleData('name', EventSource, true);
-    this._handleData('who', EventSource, true);
-    this._handleData('d', EventSource, true);
-    this._handleData('error', EventSource);
-
-    return this;
-  })
-
-  app.factory('Data', function(Events) {
-    var ret = {
-      user: {},
-      wholist: []
-    };
-    Events.listenFor('name', function(name) {
-      ret.user.name = name;
+  this._gotData = function(eventType, data) {
+    angular.forEach(this.handlers[eventType], function(handler) {
+      $rootScope.$apply(function() {
+        handler(data);
+      });
     })
-    Events.listenFor('who', function(wholist) {
-      console.log(wholist);
-      ret.wholist.length = 0;
-      angular.forEach(wholist, function(item) {
-        ret.wholist.push(item);
-      })
-    })
-    Events.listenFor('d', function(msg) {
-      if (msg.event == 'enter') {
-        ret.wholist.push(msg.who);
-      } else if (msg.event == 'leave') {
-        ret.wholist.splice(ret.wholist.indexOf(msg.who), 1);
+  }
+  this._handleData = function(eventType, source, parsejson) {
+    source.addEventListener(eventType, function(d) {
+      var data = d;
+      if (parsejson) {
+        data = angular.fromJson(d.data);
       }
-    });
-    Events.listenFor('error', function(msg) {
-      // What do we do when the server is dead?
-    });
-    return ret;
+      this._gotData(eventType, data);
+    }.bind(this))
+  }
+
+  this._handleData('status', EventSource, true);
+  this._handleData('name', EventSource, true);
+  this._handleData('who', EventSource, true);
+  this._handleData('d', EventSource, true);
+  this._handleData('error', EventSource);
+
+  return this;
+})
+
+app.factory('Data', function(Events) {
+  var ret = {
+    user: {},
+    wholist: []
+  };
+  Events.listenFor('name', function(name) {
+    ret.user.name = name;
+  })
+  Events.listenFor('who', function(wholist) {
+    ret.wholist.length = 0;
+    angular.forEach(wholist, function(item) {
+      ret.wholist.push(item);
+    })
+  })
+  Events.listenFor('d', function(msg) {
+    if (msg.event == 'enter') {
+      ret.wholist.push(msg.who);
+    } else if (msg.event == 'leave') {
+      ret.wholist.splice(ret.wholist.indexOf(msg.who), 1);
+    }
   });
+  Events.listenFor('error', function(msg) {
+    // What do we do when the server is dead?
+  });
+  return ret;
+});
 
-  app.directive('enter', function() {
-    return {
-      restrict: 'A',
-      link: function(scope, element, attrs) {
-        element.bind('keyup', function(ev) {
-          if (ev.keyCode == 13) {
-            scope.$apply(attrs.enter);
-          }
-        })
-      }
-    }
-  })
-
-  app.directive('stickToBottom', function() {
-    return {
-      restrict: 'A',
-      scope: {
-        'messages': '=stickToBottom'
-      },
-      link: function(scope, element, attrs) {
-        var el = element[0];
-        scope.stick = true;
-
-        element.bind('scroll', function() {
-          scope.adjustStick();
-        });
-
-        scope.$watch('messages', function() {
-          if (scope.stick) {
-            // move to bottom
-            el.scrollTop = el.scrollHeight - el.offsetHeight;
-          }
-        }, true);
-
-        scope.adjustStick = function() {
-          if (el.scrollTop + el.offsetHeight == el.scrollHeight) {
-            // scrolled to the bottom
-            scope.stick = true;
-          } else {
-            // not scrolled to the bottom
-            scope.stick = false;
-          }
+app.directive('enter', function() {
+  return {
+    restrict: 'A',
+    link: function(scope, element, attrs) {
+      element.bind('keyup', function(ev) {
+        if (ev.keyCode == 13) {
+          scope.$apply(attrs.enter);
         }
+      })
+    }
+  }
+})
+
+app.filter('sorted', function() {
+  return function(things) {
+    things.sort();
+    return things;
+  }
+})
+
+app.directive('stickToBottom', function() {
+  return {
+    restrict: 'A',
+    scope: {
+      'messages': '=stickToBottom'
+    },
+    link: function(scope, element, attrs) {
+      var el = element[0];
+      scope.stick = true;
+
+      element.bind('scroll', function() {
         scope.adjustStick();
+      });
+
+      scope.$watch('messages', function() {
+        if (scope.stick) {
+          // move to bottom
+          el.scrollTop = el.scrollHeight - el.offsetHeight;
+        }
+      }, true);
+
+      scope.adjustStick = function() {
+        if (el.scrollTop + el.offsetHeight == el.scrollHeight) {
+          // scrolled to the bottom
+          scope.stick = true;
+        } else {
+          // not scrolled to the bottom
+          scope.stick = false;
+        }
       }
+      scope.adjustStick();
     }
-  });
+  }
+});
 
-  app.controller('ConnectionCtrl', function($scope, Data) {
-    $scope.data = Data;
-  })
+app.controller('ConnectionCtrl', function($scope, Data) {
+  $scope.data = Data;
+})
 
 
-  app.controller('ChatBoxCtrl', function($scope, $http, Events, Data) {
-    $scope.messages = [];
+app.controller('ChatBoxCtrl', function($scope, $http, Events, Data) {
+  $scope.messages = [];
+  $scope.name = Data.user.name;
+  $scope.say = function(msg) {
+    // XXX use $location instead
+    var url = window.location.pathname + '/say';
     $scope.name = Data.user.name;
-    $scope.say = function(msg) {
-      // XXX use $location instead
-      var url = window.location.pathname + '/say';
-      $scope.name = Data.user.name;
-      $http.post(url, {'msg': msg, 'who': $scope.name})
-    }
+    $http.post(url, {'msg': msg, 'who': $scope.name})
+  }
 
-    Events.listenFor('d', function(msg) {
-      if (msg.event == 'msg') {
-        $scope.messages.push(msg);
-      }
-    })
-  });
-  </script>
+  Events.listenFor('d', function(msg) {
+    if (msg.event == 'msg') {
+      $scope.messages.push(msg);
+    }
+  })
+});
+</script>
 </body>
 </html>
