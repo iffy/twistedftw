@@ -18,11 +18,12 @@ app.config(function($routeProvider, $locationProvider) {
 
 
 app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
-    
+    PR.prettyPrint();
 })
 
 app.controller('NavbarCtrl', function($scope, $location) {
     console.log($location);
     console.log($location.path());
     $scope.path = $location.path;
+
 })

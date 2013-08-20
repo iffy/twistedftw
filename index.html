@@ -24,7 +24,7 @@
 
     <div class="spotlight" ng-controller="CarouselCtrl">
       <div class="content" ng-class="{expanded: expanded}">
-        <h2>#{{ index+1 }} With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span>:</h2>
+        <h2>#{{ index+1 }} With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span></h2>
         <div class="spotlight-guts" ng-bind-html-unsafe="showing.content">
           
         </div>
@@ -189,7 +189,7 @@
     <pre class="code">twistd -n web --port tcp:8400 --path /tmp</pre>
   </template>
 
-  <template name="run-trial.title">run unit tests in parallel</template>
+  <template name="run-trial.title">run unit tests faster!</template>
   <template name="run-trial.html">
     <pre class="code">trial -j 4 path/to/test_file.py</pre>
   </template>

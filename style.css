@@ -197,6 +197,19 @@
     color: rgb(127, 140, 141);
   }
 
+code,
+pre,
+pre * {
+  font-family: Monaco,Menlo,Consolas,"Courier New",monospace;
+}
+pre.prettyprint {
+  background-color: rgb(44, 62, 80);
+}
+code {
+  background-color: transparent;
+  color: rgb(39, 174, 96);
+}
+
 /* copied from pure */
 @media (max-width: 767px) {
   .section {
