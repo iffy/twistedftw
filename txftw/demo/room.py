@@ -1,4 +1,3 @@
-class AlreadyInTheRoom(Exception): pass
 class NotInRoom(Exception): pass
 
 
@@ -27,8 +26,11 @@ class Room(object):
         @param thing: Some object with C{setRoom(room, name)} and
             C{messageReceived(message)} methods.
         """
-        if name in self._contents:
-            raise AlreadyInTheRoom(name)
+        i = 1
+        orig = name
+        while name in self._contents:
+            name = orig + str(i)
+            i += 1
         thing.setRoom(self, name)
         self._contents[name] = thing
         self.broadcast(message.enter(name))

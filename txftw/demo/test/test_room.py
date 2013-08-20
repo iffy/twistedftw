@@ -23,13 +23,20 @@ class RoomTest(TestCase):
 
     def test_enter_twice(self):
         """
-        Entering twice should raise an error.
+        Entering under the same name should add a number to the name
         """
         room = Room()
         thing = MagicMock()
         
         room.enter('name', thing)
-        self.assertRaises(Exception, room.enter, 'name', thing)
+        thing2 = MagicMock()
+
+        room.enter('name', thing2)
+        thing2.setRoom.assert_called_once_with(room, 'name1')
+
+        thing3 = MagicMock()
+        room.enter('name', thing3)
+        thing3.setRoom.assert_called_once_with(room, 'name2')
 
 
     def test_leave(self):
@@ -101,7 +108,7 @@ class RoomTest(TestCase):
 
         room.kick('t1')
         thing2.messageReceived.assert_any_call(message.kick('t1'))
-        
+
         thing1.setRoom.assert_called_once_with(None, 't1')
         self.assertEqual(room.contents(), {'t2': thing2})
 

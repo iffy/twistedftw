@@ -5,7 +5,6 @@ from twisted.web.static import File
 from twisted.internet import defer
 
 from txftw.demo import message
-from txftw.demo.room import AlreadyInTheRoom
 
 
 def sseMsg(name, value):
@@ -61,17 +60,9 @@ class DemoApp(object):
         request.write(sseMsg('status', 'connected'))
 
         guy = WebRoomMember(request)
-        name = 'web'
-        num = 1
-        while True:
-            try:
-                room.enter(name, guy)
-                break
-            except AlreadyInTheRoom:
-                name = 'web' + str(num)
-                num += 1
+        room.enter('web', guy)
         request.write(sseMsg('who', list(room.contents())))
-        request.write(sseMsg('name', name))
+        request.write(sseMsg('name', guy.name))
         return defer.Deferred()
 
 
