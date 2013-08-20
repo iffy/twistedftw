@@ -22,6 +22,9 @@
   body {
     background: #2c3e50;
   }
+  h1,h2,h3,h4,h5 {
+    font-weight: lighter;
+  }
   @-webkit-keyframes rainbow {
     0% {
       color: rgb(52, 152, 219);
@@ -157,22 +160,33 @@
     background: rgb(231, 76, 60);
   }
   .section-web {
-    background: rgb(52, 152, 219);
+    background: rgb(46, 204, 113);
+
   }
   .section-utilities {
-    background: rgb(230, 126, 34);
+    background: rgb(52, 152, 219);
+
   }
   .section-test {
     background: rgb(155, 89, 182);
   }
-  .section-network {
+  .section-protocols {
     background: rgb(241, 196, 15);
   }
-  .section-rpc {
-    background: rgb(46, 204, 113);
+  .section-chat {
+    background: rgb(230, 126, 34);
   }
   .section-database {
     background: rgb(41, 128, 185);
+  }
+  .section-serial {
+    background: rgb(231, 76, 60);
+  }
+  .section-processes {
+    background: rgb(243, 156, 18);
+  }
+  .section-mail {
+    background: rgb(142, 68, 173);
   }
 
   .footer {

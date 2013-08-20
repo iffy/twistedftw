@@ -20,11 +20,11 @@ def getInfo(fp):
 
 
 def main(starting_path):
-    r = defaultdict(lambda: {})
+    r = defaultdict(lambda: [])
     for f in starting_path.walk():
         if f.isfile():
             section, name, title = getInfo(f)
-            r[section][name] = {'title': title}
+            r[section].append({'name': name, 'title': title})
     return r
 
 

@@ -1,1 +1,1 @@
-{"core": {"helloworld.html": {"title": "Hello, world!"}}}
+{"core": [{"name": "helloworld.html", "title": "Hello, world!"}]}
