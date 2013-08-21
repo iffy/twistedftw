@@ -24,8 +24,9 @@ class Guide(object):
             SayAnything(self),
             SecondWebConnection(self),
             TelnetConnection(self, '127.0.0.1', 8401),
-
-            # this needs to be last
+        ]
+        self.monitors = [
+            TooManyWebConnections(self),
             EveryoneLeaves(self),
         ]
         self.outcomes[0].start()
@@ -43,6 +44,9 @@ class Guide(object):
 
         for outcome in (x for x in self.outcomes if x.receiving):
             outcome.messageReceived(msg)
+
+        for monitor in self.monitors:
+            monitor.messageReceived(msg)
 
 
     def outcomeAchieved(self, outcome):
@@ -151,6 +155,23 @@ class SecondWebConnection(Outcome):
         Outcome.start(self)
         self.sayLater(3, "We are chatting in real time.")
         self.sayLater(4, "Open this page in another tab to see")
+
+
+class TooManyWebConnections(Outcome):
+
+    receiving = True
+    entrants = 0
+
+    def messageReceived(self, msg):
+        if msg['event'] == 'enter' and msg['who'].count('web'):
+            self.entrants += 1
+            if self.entrants == 4:
+                self.say("Your browser will likely only allow you to have 6 tabs "
+                         "open to this page.  So if the 7th and 8th tabs don't "
+                         "ever load, realize that it's your browser and not this "
+                         "server.")
+        elif msg['event'] == 'leave' and msg['who'].count('web'):
+            self.entrants -= 1
 
 
 

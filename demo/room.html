@@ -14,17 +14,21 @@
     margin: 1em 0;
     padding: 1em;
     overflow-y: auto;
+    overflow-x: visible;
+  }
+  .chatbox .messages {
+    max-width: 100%;
   }
   .chatbox .message {
     padding: 0em;
   }
   .chatbox .message .who {
     font-weight: bold;
-    white-space: pre;
     text-align: right;
+    vertical-align: top;
   }
   .chatbox .message .msg {
-    white-space: pre;
+    vertical-align: top;
   }
 
   .stage {
@@ -77,7 +81,7 @@
 
       <div class="chatbox" ng-controller="ChatBoxCtrl">
         <div class="history" stick-to-bottom="messages">
-          <table>
+          <table class="messages">
             <tr ng-repeat="m in messages" class="message">
               <td class="who">{{ m.who }}:</td>
               <td class="msg">{{ m.msg }}</td>
