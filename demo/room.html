@@ -21,6 +21,7 @@
   .chatbox .message .who {
     font-weight: bold;
     white-space: pre;
+    text-align: right;
   }
   .chatbox .message .msg {
     white-space: pre;
@@ -40,9 +41,13 @@
     -webkit-animation: appear 0.5s;
     float: left;
     margin: 1em;
-    padding: 2em;
     font-size: 2em;
     background: rgb(46, 204, 113);
+    border-radius: 50%;
+    width: 150px;
+    line-height: 140px;
+    height: 150px;
+    text-align: center;
   }
   .connection:nth-child(5n) {
     background: rgb(46, 204, 113);
@@ -72,10 +77,12 @@
 
       <div class="chatbox" ng-controller="ChatBoxCtrl">
         <div class="history" stick-to-bottom="messages">
-          <div ng-repeat="m in messages" class="message">
-            <span class="who">{{ m.who }}:</span>
-            <span class="msg">{{ m.msg }}</span>
-          </div>
+          <table>
+            <tr ng-repeat="m in messages" class="message">
+              <td class="who">{{ m.who }}:</td>
+              <td class="msg">{{ m.msg }}</td>
+            </tr>
+          </table>
         </div>
         <input autofocus type="text" ng-model="messageinput" enter="say(messageinput); messageinput=''" placeholder="type a message (press Enter to send)" class="form-control">
       </div>
@@ -83,7 +90,7 @@
       <div ng-controller="ConnectionCtrl">
         <h2>Connected Things</h2>
         <div class="connections">
-          <div ng-repeat="name in data.wholist" class="connection">{{ name }}</div>
+          <div ng-repeat="name in data.wholist|sorted" class="connection">{{ name }}</div>
         </div>
       </div>
 

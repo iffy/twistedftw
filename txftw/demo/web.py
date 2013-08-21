@@ -23,7 +23,6 @@ class DemoApp(object):
     def __init__(self, file_root, building):
         self.file_root = file_root
         self.building = building
-        self._connected_clients = {}
 
 
     @app.route('/')
@@ -39,6 +38,13 @@ class DemoApp(object):
     @app.route('/start')
     def start(self, request):
         key = self.building.createRoom()
+
+        # add a guide
+        from txftw.demo.guide import Guide
+        guide = Guide(self.building, key)
+        room = self.building.getRoom(key)
+        room.enter(guide.name, guide)
+
         request.redirect('room/' + key)
 
 
@@ -64,6 +70,7 @@ class DemoApp(object):
         request.setHeader('Content-Type', 'text/event-stream')
         request.write(sseMsg('status', 'connected'))
 
+        # add the user
         guy = WebRoomMember(request)
         room.enter('web', guy)
         request.write(sseMsg('who', list(room.contents())))

@@ -106,7 +106,7 @@ class Building(object):
         """
         room = self.getRoom(key)
         del self._rooms[key]
-        for thing in room.contents():
+        for thing in list(room.contents()):
             room.kick(thing)
 
 
