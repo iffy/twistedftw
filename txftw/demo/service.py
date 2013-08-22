@@ -7,6 +7,7 @@ from twisted.python.filepath import FilePath
 
 
 from txftw.demo.room import Building
+from txftw.demo.ssh import makeFactory
 from txftw.demo.telnet import DemoFactory
 from txftw.demo.web import DemoApp
 
@@ -15,13 +16,22 @@ from txftw.demo.web import DemoApp
 class Options(usage.Options):
 
     optParameters = [
+        # web
         ("web-endpoint", "w", 'tcp:8400',
             "string endpoint description for the webserver to listen on"),
         ("web-file-root", "f", "demo",
             "path to static files to be served"),
 
+        # telnet
         ('telnet-endpoint', 't', 'tcp:8401',
             "String endpoint description for the telnet server to listen on"),
+
+        # ssh
+        ('ssh-endpoint', 's', 'tcp:8022',
+            "String endpoint description for the ssh server to listen on"),
+        ('ssh-keydir', None, '/tmp',
+            "Directory with ssh keys named id_rsa and id_rsa.pub (will be "
+            "created if they don't exist)"),
     ]
 
 
@@ -31,6 +41,12 @@ def makeService(options):
 
     # common
     building = Building()
+
+    # ssh
+    endpoint = endpoints.serverFromString(reactor, options['ssh-endpoint'])
+    factory = makeFactory()
+    ssh_service = internet.StreamServerEndpointService(endpoint, factory)
+    ssh_service.setName('SSH server')
 
     # telnet
     endpoint = endpoints.serverFromString(reactor, options['telnet-endpoint'])
@@ -49,5 +65,6 @@ def makeService(options):
     ms = service.MultiService()
     web_service.setServiceParent(ms)
     telnet_service.setServiceParent(ms)
+    ssh_service.setServiceParent(ms)
 
     return ms
