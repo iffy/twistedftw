@@ -1,1 +1,1 @@
-{"core": [{"name": "helloworld", "title": "Hello, world!"}]}
+{"core": {"articles": [{"name": "helloworld", "title": "Hello, world!"}], "name": "core", "title": "Core"}, "utility": {"articles": [], "name": "utility", "title": "Utilities"}}

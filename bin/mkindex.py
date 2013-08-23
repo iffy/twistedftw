@@ -21,15 +21,23 @@ def getInfo(fp):
 
 
 def main(starting_path):
-    r = defaultdict(lambda: [])
+    r = defaultdict(lambda: {'name': '', 'title': '', 'articles':[]})
     for f in starting_path.walk():
+        try:
+            segments = f.segmentsFrom(starting_path)
+            section = segments[0]
+        except:
+            continue
         if f.isfile() and f.basename() == 'contents':
             for filename in f.getContent().split('\n'):
                 try:
                     section, name, title = getInfo(f.sibling(filename))
-                    r[section].append({'name': name, 'title': title})
+                    r[section]['articles'].append({'name': name, 'title': title})
                 except Exception as e:
                     sys.stderr.write(str(e) + '\n')
+        elif f.isfile() and f.basename() == 'title':
+            r[section]['title'] = f.getContent().strip()
+            r[section]['name'] = f.parent().basename()
     return r
 
 

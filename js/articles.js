@@ -16,14 +16,32 @@ app.config(function($routeProvider, $locationProvider) {
         .hashPrefix('!');
 });
 
+// XXX copied from mainapp.js
+app.factory('ArticleIndex', function($http) {
+    return $http.get('article_index.json')
+        .then(function(d) {
+            return d.data;
+        });
+});
+
 
 app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
     PR.prettyPrint();
+
 })
 
-app.controller('NavbarCtrl', function($scope, $location) {
-    console.log($location);
-    console.log($location.path());
-    $scope.path = $location.path;
+app.controller('NavbarCtrl', function($scope, $location, ArticleIndex) {
+    $scope.path = $location.path();
+    $scope.current_section = '';
+    $scope.current_article = '';
+    $scope.index = ArticleIndex;
 
+    $scope.$watch(function() {
+        return $location.path();
+    }, function(newvalue) {
+        $scope.path = newvalue;
+        var parts = newvalue.split('/');
+        $scope.current_section = parts[1];
+        $scope.current_article = parts[2];
+    })
 })

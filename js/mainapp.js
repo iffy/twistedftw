@@ -22,7 +22,7 @@ main.directive('linkList', function(ArticleIndex) {
     return {
         restrict: 'E',
         template: '<ul>' +
-            '<li ng-repeat="link in index[section]">' +
+            '<li ng-repeat="link in index[section][\'articles\']">' +
                 '<a href="articles.html#!/{{ section }}/{{ link.name }}">' +
                     '{{ link.title }}' +
                 '</a>' +

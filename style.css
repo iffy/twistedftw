@@ -155,6 +155,9 @@
     padding: 1em;
     color: rgb(44, 62, 80);
   }
+  pre {
+    border: 0;
+  }
 
   .section-core {
     background: rgb(231, 76, 60);
@@ -163,7 +166,7 @@
     background: rgb(46, 204, 113);
 
   }
-  .section-utilities {
+  .section-utility {
     background: rgb(52, 152, 219);
 
   }
