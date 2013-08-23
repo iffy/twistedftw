@@ -28,7 +28,7 @@ class DemoApp(object):
 
     @app.route('/')
     def index(self, request):
-        return '<a href="start">Start Demo</a>'
+        request.redirect('static/index.html')
 
 
     @app.route('/static', branch=True)
