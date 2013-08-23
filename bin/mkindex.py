@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 from twisted.python.filepath import FilePath
 import re
+import sys
 import json
 from collections import defaultdict
 
 
-r_title = re.compile('<title>(.*?)</title>', re.I | re.M | re.S)
+r_title = re.compile('<h1>(.*?)</h1>', re.I | re.M | re.S)
 
 def getInfo(fp):
     global r_title
@@ -22,9 +23,13 @@ def getInfo(fp):
 def main(starting_path):
     r = defaultdict(lambda: [])
     for f in starting_path.walk():
-        if f.isfile():
-            section, name, title = getInfo(f)
-            r[section].append({'name': name, 'title': title})
+        if f.isfile() and f.basename() == 'contents':
+            for filename in f.getContent().split('\n'):
+                try:
+                    section, name, title = getInfo(f.sibling(filename))
+                    r[section].append({'name': name, 'title': title})
+                except Exception as e:
+                    sys.stderr.write(str(e) + '\n')
     return r
 
 

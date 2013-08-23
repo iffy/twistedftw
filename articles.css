@@ -29,6 +29,7 @@
 .article-wrapper {
     margin: 2em;
     padding: 2em;
+    max-width: 992px;
     background: rgb(236, 240, 241);
 }
 .article-wrapper,
@@ -44,8 +45,12 @@ h2,h3,h4,h5 {
 }
 
 
-@media (max-width: 767px) {
+@media (max-width: 992px) {
+    .article {
+        padding: 0;
+    }
     .article-wrapper {
         margin: 0;
+        max-width: 100%;
     }
 }
