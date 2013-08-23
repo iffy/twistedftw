@@ -12,7 +12,7 @@ def getInfo(fp):
     global r_title
     segments = fp.path.split('/')
     section = segments[-2]
-    name = title = segments[-1]
+    name = title = segments[-1].split('.')[0]
     guts = fp.getContent()
     m = r_title.search(guts)
     if m:

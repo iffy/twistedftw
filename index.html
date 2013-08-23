@@ -42,39 +42,27 @@
       </div>
     </div>
 
-    <div class="row">
+    <div class="row" ng-controller="TutorialCtrl">
       <div class="row">
         
         <div class="col-md-4">
           <div class="section section-core">
             <h2>Core</h2>
-            <ul>
-              <li><a href="./articles.html#!/core/helloworld">Hello world</a></li>
-              <li>Names and Definitions</li>
-              <li>Deferreds</li>
-              <li>Running things</li>
-              <li>Plugins</li>
-            </ul>
+            <link-list section="core" index="index"></link-list>
           </div>
         </div>
         
         <div class="col-md-4">
           <div class="section section-utilities">
             <h2>Utility</h2>
-            <ul>
-              <li><a href="./articles.html#!/utilities/filepath">FilePath</a></li>
-              <li><a href="./articles.html#!/utilities/usage">Usage</a></li>
-            </ul>
+            <link-list section="utility" index="index"></link-list>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="section section-test">
             <h2>Testing</h2>
-            <ul>
-              <li>Trial, the test runner</li>
-              <li>Testing asynchronous things</li>
-            </ul>
+            <link-list section="testing" index="index"></link-list>
           </div>
         </div>
 
@@ -86,37 +74,21 @@
         <div class="col-md-4">
           <div class="section section-web">
             <h2>Web</h2>
-            <ul>
-              <li>REST</li>
-              <li>WebSockets</li>
-              <li>Server Sent Events</li>
-              <li>Client</li>
-            </ul>
+            <link-list section="web" index="index"></link-list>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="section section-protocols">
             <h2>Protocols</h2>
-            <ul>
-              <li>telnet</li>
-              <li>SSH</li>
-              <li>SCP</li>
-              <li>SFTP</li>
-              <li>AMP</li>
-              <li>ZeroMQ</li>
-              <li>RabbitMQ</li>
-            </ul>
+            <link-list section="protocols" index="index"></link-list>
           </div>
         </div>
         
         <div class="col-md-4">
           <div class="section section-chat">
             <h2>Chat</h2>
-            <ul>
-              <li>Jabber/XMPP</li>
-              <li>IRC</li>
-            </ul>
+            <link-list section="chat" index="index"></link-list>
           </div>
         </div>
       </div>
@@ -125,27 +97,21 @@
         <div class="col-md-4">
           <div class="section section-database">
             <h2>Database</h2>
-            <ul>
-              <li>SQL</li>
-              <li>MongoDB</li>
-              <li>Redis</li>
-            </ul>
+            <link-list section="database" index="index"></link-list>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="section section-serial">
             <h2>Serial</h2>
+            <link-list section="serial" index="index"></link-list>
           </div>
         </div>
 
         <div class="col-md-4">
           <div class="section section-processes">
             <h2>Processes</h2>
-            <ul>
-              <li>Spawning processes</li>
-              <li>Monitoring processes</li>
-            </ul>
+            <link-list section="process" index="index"></link-list>
           </div>
         </div>
       </div>
@@ -154,11 +120,7 @@
         <div class="col-md-4">
           <div class="section section-mail">
             <h2>Mail</h2>
-            <ul>
-              <li>SMTP</li>
-              <li>IMAP</li>
-              <li>POP3</li>
-            </ul>
+            <link-list section="mail" index="index"></link-list>
           </div>
         </div>
 

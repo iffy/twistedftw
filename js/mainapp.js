@@ -7,6 +7,33 @@ main.run(function($templateCache) {
     })
 });
 
+main.factory('ArticleIndex', function($http) {
+    return $http.get('article_index.json')
+        .then(function(d) {
+            return d.data;
+        });
+});
+
+main.controller('TutorialCtrl', function($scope, ArticleIndex) {
+    $scope.index = ArticleIndex;
+});
+
+main.directive('linkList', function(ArticleIndex) {
+    return {
+        restrict: 'E',
+        template: '<ul>' +
+            '<li ng-repeat="link in index[section]">' +
+                '<a href="articles.html#!/{{ section }}/{{ link.name }}">' +
+                    '{{ link.title }}' +
+                '</a>' +
+            '</li></ul>',
+        scope: {
+            'index': '=',
+            'section': '@'
+        }
+    }
+});
+
 main.controller('CarouselCtrl', function($scope, $timeout, $templateCache) {
     $scope.showing = {
         ability: '',
