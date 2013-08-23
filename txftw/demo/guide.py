@@ -10,9 +10,10 @@ class Guide(object):
     state = 'init'
 
 
-    def __init__(self, building, room_key):
+    def __init__(self, building, room_key, options):
         self._building = building
         self._key = room_key
+        self._options = options
 
 
     def setRoom(self, room, name):
@@ -20,10 +21,13 @@ class Guide(object):
         self.name = name
         self._finished_outcomes = []
         self.achievements = []
+
+        domain = self._options.get('domain', '127.0.0.1')
+        telnet_port = int(self._options.get('telnet-endpoints', 'tcp:8401').split(':')[1])
         self.outcomes = [
             SayAnything(self),
             SecondWebConnection(self),
-            TelnetConnection(self, '127.0.0.1', 8401),
+            TelnetConnection(self, domain, telnet_port),
         ]
         self.monitors = [
             TooManyWebConnections(self),
@@ -128,7 +132,7 @@ class SayAnything(Outcome):
     def messageReceived(self, msg):
         if msg['event'] == 'msg':
             self.achieve()
-            self.sayLater(1, "Oh good, you're there!")
+            self.say("Oh good, you're there!")
 
 
     def start(self):
@@ -149,12 +153,14 @@ class SecondWebConnection(Outcome):
             self.entrants += 1
         if self.entrants >= 2:
             self.achieve()
-            self.sayLater(1, "Hello to both of you!")
+            self.say("Hello to both of you!")
 
     def start(self):
         Outcome.start(self)
-        self.sayLater(3, "We are chatting in real time.")
-        self.sayLater(4, "Open this page in another tab to see")
+        self.sayLater(2, "We are chatting in real time.  Open this page in "
+                      "another tab and you can chat with yourself.")
+        self.sayLater(17, "Are you going to open this page up in another "
+                      "window or what?")
 
 
 class TooManyWebConnections(Outcome):
@@ -186,14 +192,15 @@ class TelnetConnection(Outcome):
     def messageReceived(self, msg):
         if msg['event'] == 'enter' and msg['who'].count('telnet'):
             self.achieve()
-            self.sayLater(1, "Voila!  Telnet talking to HTTP!")
+            self.sayLater(1, "Voila!  "
+                          "Telnet and HTTP all in the same chat room!")
 
 
     def start(self):
         Outcome.start(self)
-        self.sayLater(5, "You're connected through a browser using the HTTP "
-                         "protocol.You can also connect using telnet.  In a "
-                         "terminal, type telnet %s %s" % (self.ip, self.port))
-        self.sayLater(7, "It will ask for this key: %s" % (self.guide._key,))
+        self.sayLater(5, "With Twisted, it's easy to connect different "
+                      "protocols together.  In a terminal "
+                      "type: telnet %s %s" % (self.ip, self.port))
+        self.sayLater(5.5, "Then give it this key: %s" % (self.guide._key,))
 
 

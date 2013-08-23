@@ -15,6 +15,9 @@ from txftw.demo.web import DemoApp
 class Options(usage.Options):
 
     optParameters = [
+        ('domain', 'd', '127.0.0.1',
+            "Domain name to use when giving out links"),
+
         ("web-endpoint", "w", 'tcp:8400',
             "string endpoint description for the webserver to listen on"),
         ("web-file-root", "f", "demo",
@@ -40,7 +43,7 @@ def makeService(options):
 
     # web
     endpoint = endpoints.serverFromString(reactor, options['web-endpoint'])
-    web_app = DemoApp(FilePath(options['web-file-root']), building)
+    web_app = DemoApp(FilePath(options['web-file-root']), building, options)
     site = Site(web_app.app.resource())
     web_service = internet.StreamServerEndpointService(endpoint, site)
     web_service.setName('Web server')

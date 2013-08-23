@@ -20,9 +20,10 @@ class DemoApp(object):
     app = Klein()
 
 
-    def __init__(self, file_root, building):
+    def __init__(self, file_root, building, options):
         self.file_root = file_root
         self.building = building
+        self.options = options
 
 
     @app.route('/')
@@ -41,7 +42,7 @@ class DemoApp(object):
 
         # add a guide
         from txftw.demo.guide import Guide
-        guide = Guide(self.building, key)
+        guide = Guide(self.building, key, self.options)
         room = self.building.getRoom(key)
         room.enter(guide.name, guide)
 
