@@ -2,6 +2,7 @@ class NotInRoom(Exception): pass
 
 
 from uuid import uuid4
+from hashlib import sha1
 
 from txftw.demo import message
 
@@ -82,13 +83,18 @@ class Building(object):
         self._rooms = {}
 
 
+    def _newKeyAttempt(self):
+        return sha1(str(uuid4())).hexdigest()[:8]
+
     def createRoom(self):
         """
         Provision a new room.
 
         @return: A C{key} to be used when calling L{getRoom} and L{destroyRoom}.
         """
-        key = str(uuid4())
+        key = self._newKeyAttempt()
+        while key in self._rooms:
+            key = self._newKeyAttempt()
         self._rooms[key] = Room()
         return key
 
