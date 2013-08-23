@@ -20,7 +20,8 @@
     <div class="col-md-2 sidebar" ng-controller="NavbarCtrl">
       <ul class="supermenu">
         <li><a href="./index.html">Home</a></li>
-        <li ng-repeat="section in index" class="section-{{ section.name }}" ng-class="{selected: section.name == current_section}">{{ section.title }}
+        <li ng-repeat="section in index" class="section-{{ section.name }}" ng-class="{selected: section.name == current_section}">
+          <a href="#" ng-click="expanded=!expanded">{{ section.title }}</a>
           <ul class="submenu" ng-show="expanded || section.name == current_section">
             <li ng-repeat="article in section.articles"><a href="#!/{{ section.name }}/{{ article.name }}">{{ article.title }}</a></li>
           </ul>

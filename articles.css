@@ -37,6 +37,10 @@
 .sidebar ul.submenu li {
     font-size: 0.5em;
 }
+.sidebar a {
+    color: #fff;
+    text-decoration: none;
+}
 .article {
     min-height: 100%;
 }
@@ -56,6 +60,11 @@
 
 h2,h3,h4,h5 {
     margin-top: 2em;
+}
+
+a {
+    color: rgb(52, 152, 219);
+    text-decoration: underline;
 }
 
 

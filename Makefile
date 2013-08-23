@@ -1,5 +1,8 @@
 
-.PHONY: test
+.PHONY: all test
+
+all: test article_index.json
+
 
 article_index.json: articles/* articles/*/* bin/mkindex.py
 	python bin/mkindex.py > article_index.json

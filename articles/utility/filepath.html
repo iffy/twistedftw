@@ -1,0 +1,53 @@
+<h1>Dealing with Files</h1>
+
+<p>
+    Twisted includes <a href="http://twistedmatrix.com/documents/current/api/twisted.python.filepath.FilePath.html" target="_blank"><code>FilePath</code></a>, a great utility for dealing with files.
+</p>
+
+<!-- runcode example1 -->
+<pre class="prettyprint lang-py">import tempfile
+from twisted.python.filepath import FilePath
+
+# instantiate
+tmp = FilePath(tempfile.mkdtemp())
+
+# move into directories
+work = tmp.child('work')
+
+# make directories
+work.makedirs()
+
+# move up
+assert work.parent() == tmp
+
+# make files
+for name in ['apple', 'carnivore', 'surfboard']:
+    work.child(name).setContent('This is my %s' % (name,))
+
+# access siblings
+dir2 = work.sibling('dir2')
+dir2.makedirs()
+
+# walk the tree
+for fp in work.walk():
+    # there's also exists(), isdir(), islink(), isSocket(), etc...
+    if fp.isfile():
+        # there's also linkTo() and moveTo()
+        fp.copyTo(dir2.child(fp.basename()))
+
+# cat a file
+print dir2.child('carnivore').getContent()
+# -> This is my carnivore
+</pre>
+
+<p>
+    Check out <a href="http://twistedmatrix.com/documents/current/api/twisted.python.filepath.FilePath.html" target="_blank">the official docs</a> for the complete list of capabilities.
+</p>
+
+<h2>Separate package</h2>
+
+<p>
+    <code>FilePath</code> is such a great utility, that the code is released as a separate package (named <code>filepath</code>).
+    <pre class="prettyprint lang-bash">pip install filepath</pre>
+    <pre class="prettyprint lang-py">from filepath import FilePath</pre>
+</p>
