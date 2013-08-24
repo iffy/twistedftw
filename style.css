@@ -214,6 +214,11 @@ code {
 }
 
 /* copied from pure */
+@media (max-width: 992px) {
+  .section:last-child {
+    margin-bottom: 0;
+  }
+}
 @media (max-width: 767px) {
   .section {
     margin: 0;
