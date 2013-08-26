@@ -1,0 +1,32 @@
+<h1>Hello, world!</h1>
+
+<p>
+  Want a fast Python webserver without the hassle of threads?  Twisted FTW!  Using <a href="https://github.com/twisted/klein" target="_blank">Klein</a>, "...a micro-framework for developing production ready web services with python," makes it easy.
+</p>
+
+<h2>Install Klein</h2>
+
+<pre class="prettyprint lang-bash">pip install klein</pre>
+
+<h2>Chat Server</h2>
+
+<p>
+  Here's all the code it takes to make a chat server:
+</p>
+
+<pre class="prettyprint lang-py">from klein import Klein
+
+class ChatApp:
+
+    app = Klein()
+
+    def __init__(self):
+        self.users = []
+
+    @app.route('/<string:room>')
+    def room
+</pre>
+
+<p>
+  <a href="https://github.com/twisted/klein" target="_blank">Klein's README</a> documents most of the other things you'll want to do with it.  Go take a look.
+</p>
