@@ -19,7 +19,7 @@ probably welcome here.
 
 It is *not* a goal of TwistedFTW to replace the official docs nor to replace
 other excellent tutorials or guides.  As much as possible, link to official
-docs or other relevant sources rather than simply duplicating work.
+docs or other relevant sources rather than duplicating work.
 
 
 How to contribute
@@ -33,9 +33,9 @@ How to contribute
         See LICENSE for details.
 
 
-2.  Branch off of the gh-pages-dev branch.
+2.  Branch off of the `gh-pages-dev` branch.
 
-3.  Add your name to CONTRIBUTORS if you want (this is optional).
+3.  Add your name to `CONTRIBUTORS` if you want (this is optional).
 
 4.  Submit a pull request through Github.
 
@@ -73,5 +73,5 @@ Start the webserver on port 8900
 Then go to http://127.0.0.1:8900/ to see it.
 
 If you don't see the article you just added, maybe you need to add it to the
-`contents` file or remake the `article_index.json` (see "Adding an article"
-above).
+`contents` file or remake the `article_index.json` (see
+[Adding an article](#adding-an-article) above).
