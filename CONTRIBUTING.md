@@ -35,7 +35,7 @@ How to contribute
 
 2.  Branch off of the `gh-pages-dev` branch.
 
-3.  Add your name to `CONTRIBUTORS` if you want (this is optional).
+3.  Add your name to `AUTHORS` if you want (this is optional).
 
 4.  Submit a pull request through Github.
 
