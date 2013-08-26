@@ -33,11 +33,11 @@ How to contribute
         See LICENSE for details.
 
 
-2.  Branch off of the `gh-pages-dev` branch.
+2.  Branch off of the `gh-pages` branch.
 
 3.  Add your name to `AUTHORS` if you want (this is optional).
 
-4.  Submit a pull request through Github.
+4.  Submit a pull request through Github to merge into the `gh-pages` branch.
 
 
 Adding an article
