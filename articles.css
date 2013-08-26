@@ -45,6 +45,10 @@ See LICENSE for details.
     color: #fff;
     text-decoration: none;
 }
+.sidebar ul.submenu li.selected a:before{
+    content: '\25b6';
+    padding-right: 0.5em;
+}
 .article {
     min-height: 100%;
     font-size: 16px;

@@ -27,7 +27,7 @@
         <li ng-repeat="section in index" class="section-{{ section.name }}" ng-class="{selected: section.name == current_section}">
           <a href="#" ng-click="expanded=!expanded">{{ section.title }}</a>
           <ul class="submenu" ng-show="expanded || section.name == current_section">
-            <li ng-repeat="article in section.articles"><a href="#!/{{ section.name }}/{{ article.name }}">{{ article.title }}</a></li>
+            <li ng-repeat="article in section.articles" ng-class="{selected: section.name == current_section && article.name == current_article}"><a href="#!/{{ section.name }}/{{ article.name }}">{{ article.title }}</a></li>
           </ul>
         </li>
       </ul>
