@@ -1,5 +1,5 @@
 <!--
-Copyright (c) TwistedFTW
+Copyright (c) The TwistedFTW Team
 See LICENSE for details.
 -->
 
@@ -29,7 +29,7 @@ How to contribute
     license (See the LICENSE file in this directory).  Include a comment such
     as the following in all source files:
 
-        Copyright (c) TwistedFTW
+        Copyright (c) The TwistedFTW Team
         See LICENSE for details.
 
 

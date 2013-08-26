@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# Copyright (c) TwistedFTW
+# Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
 
 from twisted.python.filepath import FilePath

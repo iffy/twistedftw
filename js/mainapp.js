@@ -1,4 +1,4 @@
-// Copyright (c) TwistedFTW
+// Copyright (c) The TwistedFTW Team
 // See LICENSE for details.
 
 var main = angular.module('main', []);
