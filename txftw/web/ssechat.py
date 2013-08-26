@@ -1,3 +1,6 @@
+# Copyright (c) The TwistedFTW Team
+# See LICENSE for details.
+
 from klein import Klein
 from twisted.internet import defer
 from collections import defaultdict
