@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Copyright (c) The TwistedFTW Team
+# See LICENSE for details.
+
 """
 I extract bits of python from HTML and generate a set of tests that can be run.
 """
