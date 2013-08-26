@@ -66,7 +66,6 @@ app.directive('include', function(Includer) {
 app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
   PR.prettyPrint();
   $scope.pretty = function() {
-    console.log('pretty called');
     PR.prettyPrint();
   }
 })
