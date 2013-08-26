@@ -3,7 +3,6 @@
 
 from klein import Klein
 from twisted.internet import defer
-from collections import defaultdict
 import json
 
 
@@ -27,9 +26,12 @@ class ChatApp:
         """
         Send a message to all subscribers.
         """
+        # Prepare message to be sent.
         message = request.args['message'][0]
         name = request.args['name'][0]
         event = self.sse('message', json.dumps([name, message]))
+
+        # Send message to every subscriber
         for subscriber in self.subscribers:
             subscriber.write(event)
 

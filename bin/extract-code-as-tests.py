@@ -8,7 +8,6 @@ I extract bits of python from HTML and generate a set of tests that can be run.
 from twisted.python.filepath import FilePath
 import re
 import sys
-import json
 from collections import defaultdict
 
 
