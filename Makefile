@@ -1,3 +1,5 @@
+# Copyright (c) TwistedFTW
+# See LICENSE for details.
 
 .PHONY: all test
 

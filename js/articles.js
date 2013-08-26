@@ -1,3 +1,6 @@
+// Copyright (c) TwistedFTW
+// See LICENSE for details.
+
 var app = angular.module('article', []);
 
 app.config(function($routeProvider, $locationProvider) {

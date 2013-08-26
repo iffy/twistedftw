@@ -1,3 +1,6 @@
+// Copyright (c) TwistedFTW
+// See LICENSE for details.
+
 var main = angular.module('main', []);
 
 main.run(function($templateCache) {

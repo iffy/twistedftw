@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+# Copyright (c) TwistedFTW
+# See LICENSE for details.
+
 from twisted.python.filepath import FilePath
 import re
 import sys
