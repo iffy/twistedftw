@@ -72,6 +72,9 @@ a {
     color: rgb(52, 152, 219);
     text-decoration: underline;
 }
+pre {
+    color: #fff;
+}
 
 
 @media (max-width: 992px) {

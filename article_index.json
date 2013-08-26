@@ -1,1 +1,1 @@
-{"core": {"articles": [{"name": "helloworld", "title": "Hello, world!"}], "name": "core", "title": "Core"}, "utility": {"articles": [{"name": "filepath", "title": "Dealing with Files"}], "name": "utility", "title": "Utilities"}}
+{"core": {"articles": [{"name": "helloworld", "title": "Hello, world!"}], "name": "core", "title": "Core"}, "web": {"articles": [{"name": "ssechat", "title": "Simple Chat Server"}], "name": "web", "title": "Web"}, "utility": {"articles": [{"name": "filepath", "title": "Dealing with Files"}], "name": "utility", "title": "Utilities"}}

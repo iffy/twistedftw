@@ -1,0 +1,31 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Simple Chat Server</h1>
+
+<p>
+  Let's see what it takes to make a fully functional web-based chat application with Twisted.
+</p>
+
+<h2>Install Klein</h2>
+
+<p>
+  <a href="https://github.com/twisted/klein" target="_blank">Klein</a>, "...a micro-framework for developing production ready web services with python," makes it easy. Klein is a separate package from Twisted, which provides a simple API for making Twisted-based web applications.
+</p>
+
+<pre class="prettyprint lang-bash">pip install klein</pre>
+
+
+<h2>Code</h2>
+
+<p>
+  Below is the complete code, including HTML and JavaScript, for making a chat server using <a href="http://en.wikipedia.org/wiki/Server-sent_events" target="_blank">Server-Sent Events</a>
+  (which is supported by <a href="http://caniuse.com/eventsource" target="_blank">most browsers</a>).  The code uses JQuery for DOM manipulation and event handling (but is not needed for Server Sent Events):
+</p>
+
+<pre class="prettyprint lang-py" include="/txftw/web/ssechat.py"></pre>
+
+<p>
+  <a href="https://github.com/twisted/klein" target="_blank">Klein's README</a> documents most of the other things you'll want to do with it.  Go take a look.
+</p>
