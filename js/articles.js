@@ -72,16 +72,33 @@ app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
 
 app.controller('NavbarCtrl', function($scope, $location, ArticleIndex) {
   $scope.path = $location.path();
-  $scope.current_section = '';
-  $scope.current_article = '';
-  $scope.index = ArticleIndex;
+  $scope.current_section = {};
+  $scope.current_article_name = '';
+  $scope.current_article = {};
+  $scope.index = {};
+  ArticleIndex.then(function(d) {
+    $scope.index = d;
+  });
+
+  $scope.updateCurrents = function() {
+    $scope.path = $location.path();
+    var parts = $scope.path.split('/');
+    $scope.current_section = $scope.index[parts[1]];
+    $scope.current_article_name = parts[2];
+    // There must be a better way
+    if ($scope.current_section !== undefined) {
+      $scope.current_section['articles'].forEach(function(article) {
+        if (article.name == parts[2]) {
+          $scope.current_article = article;
+        }
+      });
+    }
+  };
 
   $scope.$watch(function() {
     return $location.path();
-  }, function(newvalue) {
-    $scope.path = newvalue;
-    var parts = newvalue.split('/');
-    $scope.current_section = parts[1];
-    $scope.current_article = parts[2];
-  })
+  }, $scope.updateCurrents);
+  $scope.$watch(function() {
+    return $scope.index;
+  }, $scope.updateCurrents, true);
 })
