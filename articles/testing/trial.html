@@ -2,7 +2,7 @@
   Copyright (c) The TwistedFTW Team
   See LICENSE for details.
   -->
-<h1>Trial, the Test Runner</h1>
+<h1>Trial: Run Tests Faster</h1>
 
 <p>
   If you write tests using Python's built-in <a href="http://docs.python.org/2/library/unittest.html" target="_blank"><code>unittest</code></a> module, you can run those tests with <code>trial</code> (which is available if you have already installed Twisted).
@@ -44,6 +44,26 @@ PASSED (successes=2)</pre>
 </p>
 
 <pre class="prettyprint lang-bash">trial -j 5 test_foo</pre>
+
+<p>
+  Want to see the difference?  Try running Twisted's tests with and without the
+  <code>-j/--jobs</code> option:
+</p>
+
+<pre class="prettyprint lang-bash">git clone --depth 1 https://github.com/twisted/twisted.git
+cd twisted
+trial twisted
+# it took 123s on my machine </pre>
+
+<p>
+  And now using all 8 cores:
+</p>
+
+<pre class="prettyprint lang-bash">trial -j 8 twisted
+# it took 51s on my machine </pre>
+
+
+<h2>Next steps</h2>
 
 <p>
   Read more about <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial" target="_blank"><code>trial</code></a> and <a href="http://twistedmatrix.com/documents/current/core/howto/trial.html" target="_blank">Test-driven development with Twisted</a>.
