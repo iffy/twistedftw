@@ -1,0 +1,56 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Process output</h1>
+
+<p>
+  Twisted lets you asynchronously spawn processes.
+</p>
+
+<h2>Just the end result</h2>
+  If you only care about the final result of a process, you can use <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.utils.getProcessOutput.html" target="_blank"><code>twisted.internet.utils.getProcessOutput</code></a>, <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.utils.html#getProcessValue" target="_blank"><code>getProcessValue</code></a> or <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.utils.html#getProcessOutputAndValue" target="_blank"><code>getProcessOutputAndValue</code></a>.  The following code will run <code>/bin/echo</code> and print the output from the process (copy and paste to see):
+</p>
+
+<!-- runcode echo1 -->
+<pre class="prettyprint lang-py">from twisted.internet.task import react
+from twisted.internet.utils import getProcessOutput
+
+def printResult(result):
+    print result
+
+def main(reactor, message):
+    print message
+    return getProcessOutput('/bin/echo', [message]).addCallback(printResult)
+
+react(main, ['Hello, world!'])
+</pre>
+
+<p>
+  If you want the return code instead of the output, substitute <code>getProcessOutput</code> with <code>getProcessValue</code>.
+</p>
+
+
+<h2>In parallel</h2>
+
+<p>
+  Since this is Twisted, you don't need to block waiting for the process to finish.  The following code sample will spawn 20 instances of <code>sleep 2</code>, which would ordinarily take 40 seconds, but will only take about 2 seconds because they'll all run at the same time.
+</p>
+
+<!-- runcode sleeper -->
+<pre class="prettyprint lang-py">from twisted.internet.task import react
+from twisted.internet.utils import getProcessValue
+from twisted.internet import defer
+
+def printResult(result):
+    print result
+    return result
+
+def main(reactor):
+    result_list = []
+    for i in xrange(20):
+        result_list.append(getProcessValue('/bin/sleep', ['2']).addCallback(printResult))
+    return defer.gatherResults(result_list)
+
+react(main)
+</pre>
