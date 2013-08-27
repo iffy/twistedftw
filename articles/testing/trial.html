@@ -1,0 +1,50 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Trial, the Test Runner</h1>
+
+<p>
+  If you write tests using Python's built-in <a href="http://docs.python.org/2/library/unittest.html" target="_blank"><code>unittest</code></a> module, you can run those tests with <code>trial</code> (which is available if you have already installed Twisted).
+</p>
+
+<p>
+  For example, if you have this test file (saved as <code>test_foo.py</code>):
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/testing/test_foo.py"></pre>
+
+<p>
+  Run the tests like this
+</p>
+
+<pre class="prettyprint lang-bash">trial test_foo</pre>
+<pre class="prettyprint lang-bash">test_foo
+  TestThings
+    test_addition ...                                                      [OK]
+    test_concatenation ...                                                 [OK]
+
+-------------------------------------------------------------------------------
+Ran 2 tests in 0.019s
+
+PASSED (successes=2)</pre>
+
+
+<h2>Testing with All the Cores!</h2>
+
+<p>
+  If you use <code>trial</code> to run tests, you can leverage Twisted's
+  asynchronousness to run the tests in parallel (and use all the cores
+  on your machine, instead of just one).
+</p>
+
+<p>
+  This will run the tests in 5 different processes (which could be up to 5
+  times faster):
+</p>
+
+<pre class="prettyprint lang-bash">trial -j 5 test_foo</pre>
+
+<p>
+  Read more about <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial" target="_blank"><code>trial</code></a> and <a href="http://twistedmatrix.com/documents/current/core/howto/trial.html" target="_blank">Test-driven development with Twisted</a>.
+</p>
