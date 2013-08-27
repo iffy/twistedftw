@@ -21,14 +21,15 @@
 <body ng-app="article" class="col-xs-12">
 
   <div class="row small-nav visible-xs visible-sm section-{{ current_section.name }}" ng-controller="NavbarCtrl">
-    <div class="col-xs-6 nav-title">{{ current_section.title }}</div>
-    <div class="col-xs-6 text-right"><a href="#" ng-click="$parent.menu_showing=!$parent.menu_showing">Menu</a></div>
+    <div class="col-xs-3 nav-title"><a href="./index.html">Home</a></div>
+    <div class="col-xs-6 text-center">{{ current_section.title }}</div>
+    <div class="col-xs-3 text-right"><a href="#" ng-click="$parent.menu_showing=!$parent.menu_showing">Menu</a></div>
   </div>
 
   <div class="row">
     <div class="col-md-2 sidebar" ng-controller="NavbarCtrl" ng-class="{'hidden-xs hidden-sm': !$parent.menu_showing}">
       <ul class="supermenu">
-        <li><a href="./index.html">Home</a></li>
+        <li class="hidden-xs hidden-sm"><a href="./index.html">Home</a></li>
         <li ng-repeat="section in index" class="section-{{ section.name }}" ng-class="{selected: section.name == current_section.name}">
           <a href="#" ng-click="expanded=!expanded">{{ section.title }}</a>
           <ul class="submenu" ng-show="expanded || section.name == current_section.name">
