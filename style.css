@@ -129,7 +129,7 @@ See LICENSE for details.
   .section {
     background: rgb(52, 73, 94);
     padding: 1em 2em;
-    margin: 1em;
+    margin: 1em 0em;
   }
   .section h2 {
     margin-top: 0;
