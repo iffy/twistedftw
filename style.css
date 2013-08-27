@@ -225,6 +225,9 @@ code {
   .section:last-child {
     margin-bottom: 0;
   }
+  .footer .right {
+    text-align: left;
+  }
 }
 @media (max-width: 767px) {
   .section {
@@ -236,12 +239,7 @@ code {
   .spotlight {
     padding: 1em;
   }
-  .footer {
-    position: relative;
-  }
-  .footer .right {
-    text-align: left;
-  }
+  
   .hero {
     text-align: center;
   }
