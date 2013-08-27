@@ -36,6 +36,7 @@ See LICENSE for details.
 }
 .sidebar ul.submenu li {
     font-size: 0.5em;
+    padding: 0.2em;
 }
 .sidebar a {
     color: #fff;

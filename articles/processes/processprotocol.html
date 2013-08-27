@@ -1,0 +1,33 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Process interaction</h1>
+
+<p>
+  Twisted lets you interact with processes <em>while they run</em>!
+</p>
+
+<h2>Guessing game</h2>
+
+<p>
+  Here's the code for a guessing game:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/processes/guessinggame.py"></pre>
+
+<p>
+  And here's a program that will spawn and play the game:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/processes/guessingplayer.py"></pre>
+
+<p>
+  The strategy <code>RandomGamePlayer</code> uses isn't very good (it randomly chooses a number in the range until it guesses right, completely ignoring the 'too high' and 'too low' cues).  See if you can modify the player to take advantage of the cues.
+</p>
+
+<h2>Next steps</h2>
+
+<p>
+  Read more about <a href="http://twistedmatrix.com/documents/current/core/howto/process.html" target="_blank">Using Processes</a> in the official docs.
+</p>
