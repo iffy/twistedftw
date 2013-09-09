@@ -4,7 +4,6 @@
 from twisted.internet import reactor
 from twisted.application import service
 from twisted.runner.procmon import ProcessMonitor
-from twisted.python.filepath import FilePath
 from twisted.python.procutils import which
 
 application = service.Application("Web and Forwarder")
