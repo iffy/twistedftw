@@ -5,28 +5,14 @@ from twisted.internet import reactor
 from twisted.application import service
 from twisted.runner.procmon import ProcessMonitor
 from twisted.python.filepath import FilePath
-import sys
+from twisted.python.procutils import which
 
 application = service.Application("Web and Forwarder")
 
 procmon_service = ProcessMonitor()
 procmon_service.setServiceParent(application)
 
-
-def findTwistd():
-    """
-    Search for the twistd binary.  This is necessary if in case I'm executing
-    from within a virtualenv.
-    """
-    for p in sys.path:
-        twistd = FilePath(p).child('twistd')
-        if twistd.exists():
-            return twistd.path
-    raise Exception("Can't find twistd")
-
-
-twistd = findTwistd()
-
+twistd = which('twistd')[0]
 
 # serve /tmp on port 9905
 procmon_service.addProcess('web',
@@ -37,5 +23,3 @@ procmon_service.addProcess('web',
 reactor.callLater(5, procmon_service.addProcess, 'pf',
     [twistd, '--nodaemon', '--pidfile=/tmp/pf.pid',
      'portforward', '--port', 'tcp:8805', '--dest_port', '9905'])
-
-print dir(application)
