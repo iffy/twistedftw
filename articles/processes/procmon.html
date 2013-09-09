@@ -1,0 +1,47 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Process supervising</h1>
+
+<p>
+  Twisted can supervise / monitor processes (e.g. restart them when they die).
+</p>
+
+<h2>Using <code>twistd</code></h2>
+
+<p>
+  Use <code>twistd</code> to restart a process when it dies:
+</p>
+
+<pre class="prettyprint lang-bash">twistd -n procmon bash -c 'sleep 3; echo "foo"'</pre>
+
+<p>
+  See more usage options with <code>twistd procmon --help</code>.
+</p>
+
+
+<h2>From Python</h2>
+
+<p>
+  You can also supervise processes programmatically (start and stop them).  Following is some code that will monitor a static web server, then start a port forwarding service to the static webserver after a few seconds:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/processes/procmon1.py"></pre>
+
+<p>
+  To run the code, save it as <code>procmon1.py</code> then
+</p>
+
+<pre class="prettyprint lang-bash">twistd -n -y procmon1.py</pre>
+
+<p>
+  Then visit <a href="http://127.0.0.1:9905" target="_blank">http://127.0.0.1:9905</a> (or <a href="http://127.0.0.1:8805" target="_blank">http://127.0.0.1:8805</a> if the forwarder has started)
+</p>
+
+
+<h2>Next steps</h2>
+
+<p>
+  Read more about the <a href="https://twistedmatrix.com/documents/current/api/twisted.runner.procmon.ProcessMonitor.html" target="_blank">ProcessMonitor service</a> in the official docs.
+</p>
