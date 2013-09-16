@@ -81,6 +81,7 @@ pre {
 
 .small-nav {
     padding: 1em;
+    font-size: 2em;
 }
 .small-nav a {
     color: #fff;
@@ -92,11 +93,21 @@ pre {
 
 
 @media (max-width: 991px) {
+    p {
+        line-height: 40px;
+    }
+    pre {
+        font-size: 1.2em;
+        line-height: 1.2em;
+    }
     .article {
         padding: 0;
     }
     .article-wrapper {
         margin: 0;
         max-width: 100%;
+    }
+    .footer {
+        font-size: 2em;
     }
 }
