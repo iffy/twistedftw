@@ -1,6 +1,5 @@
 # Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
-
 from twisted.internet import reactor
 from twisted.web.wsgi import WSGIResource
 from klein import Klein

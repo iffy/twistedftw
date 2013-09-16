@@ -1,6 +1,5 @@
 # Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
-
 from twisted.internet import reactor
 from twisted.application import service
 from twisted.runner.procmon import ProcessMonitor
