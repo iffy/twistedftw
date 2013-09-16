@@ -1,0 +1,52 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Serving WSGI</h1>
+
+<p>
+  Twisted can be used as a production-grade server for your WSGI app (e.g. Django, Flask, web2py, <a href="http://wsgi.readthedocs.org/en/latest/frameworks.html" target="_blank">etc.</a>).
+</p>
+
+<h2>With <code>twistd</code></h2>
+
+<p>
+  Save this file as <code>wsgiapp.py</code> (it's a dummy application that responds with <code>Hello, world!</code> to every request:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/web/wsgiapp.py"></pre>
+
+<p>
+  Then run it with <code>twistd</code> on port 8080:
+</p>
+
+<pre class="prettyprint lang-bash">twistd --nodaemon web --port tcp:8080 --wsgi wsgiapp.application</pre>
+
+
+<h2>Install Klein</h2>
+
+<p>
+  <a href="https://github.com/twisted/klein" target="_blank">Klein</a>, "...a micro-framework for developing production ready web services with python," makes it easy. A separate package from Twisted, Klein provides a simple API for making Twisted-based web applications.
+</p>
+
+<pre class="prettyprint lang-bash">pip install klein</pre>
+
+
+<h2>Code</h2>
+
+<p>
+  Below is the complete code, including HTML and JavaScript, for making a chat server using <a href="http://en.wikipedia.org/wiki/Server-sent_events" target="_blank">Server-Sent Events</a>
+  (which is supported by <a href="http://caniuse.com/eventsource" target="_blank">most browsers</a>).  The code uses JQuery for DOM manipulation and event handling (but is not needed for Server Sent Events):
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/web/ssechat.py"></pre>
+
+<p>
+  <a href="https://github.com/twisted/klein" target="_blank">Klein's README</a> documents most of the other things you'll want to do with it.  Go take a look.
+</p>
+
+<h2>Next steps</h2>
+
+<p>
+  Read <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/wsgi.html" target="_blank">this WSGI article</a> from the excellent <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/" target="_blank">Twisted Web In 60 Seconds</a> series.  Or read the <a href="http://twistedmatrix.com/documents/current/api/twisted.web.wsgi.WSGIResource.html" target="_blank"><code>WSGIResource</code> source</a>
+</p>
