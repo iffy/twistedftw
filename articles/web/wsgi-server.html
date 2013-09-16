@@ -23,30 +23,46 @@
 <pre class="prettyprint lang-bash">twistd --nodaemon web --port tcp:8080 --wsgi wsgiapp.application</pre>
 
 
-<h2>Install Klein</h2>
+<h2>With <code>WSGIResource</code></h2>
 
 <p>
-  <a href="https://github.com/twisted/klein" target="_blank">Klein</a>, "...a micro-framework for developing production ready web services with python," makes it easy. A separate package from Twisted, Klein provides a simple API for making Twisted-based web applications.
+  If you'd like more control over how your WSGI app is served you can use <code>WSGIResource</code>.  Read <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/wsgi.html">this WSGI article</a> from the excellent <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/" target="_blank">Twisted Web In 60 Seconds</a> series for an example with explanation.
 </p>
-
-<pre class="prettyprint lang-bash">pip install klein</pre>
-
-
-<h2>Code</h2>
 
 <p>
-  Below is the complete code, including HTML and JavaScript, for making a chat server using <a href="http://en.wikipedia.org/wiki/Server-sent_events" target="_blank">Server-Sent Events</a>
-  (which is supported by <a href="http://caniuse.com/eventsource" target="_blank">most browsers</a>).  The code uses JQuery for DOM manipulation and event handling (but is not needed for Server Sent Events):
+  Here's a demo application using <a href="https://github.com/twisted/klein" target="_blank">Klein</a> and <a href="http://flask.pocoo.org/" target="_blank">Flask</a>.  Install both of these with <code>pip install klein flask</code>.
 </p>
 
-<pre class="prettyprint lang-py" include="./txftw/web/ssechat.py"></pre>
+<pre class="prettyprint lang-py" include="./txftw/web/wsgi_klein_flask.py"></pre>
 
 <p>
-  <a href="https://github.com/twisted/klein" target="_blank">Klein's README</a> documents most of the other things you'll want to do with it.  Go take a look.
+  Once that's running, visit <a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a> to see how many Flask apps are running.  Visit <a href="http://localhost:8080/foo" target="_blank">http://localhost:8080/foo</a> to spawn a new Flask subapp that will allow 3 requests.  Make a few requests, then check on the status at <a href="http://localhost:8080/" target="_blank">http://localhost:8080/</a>.
 </p>
+
+<p>
+  Here's sample output from a running server:
+</p>
+
+<pre class="prettyprint lang-bash">
+$ curl http://localhost:8080/
+No running apps
+$ curl http://localhost:8080/foo
+I am foo
+$ curl http://localhost:8080/bar
+I am bar
+$ curl http://localhost:8080/foo
+I am foo
+$ curl http://localhost:8080/
+bar, lives: 2
+foo, lives: 1
+$ curl http://localhost:8080/foo
+Nevermore
+$ curl http://localhost:8080/
+bar, lives: 2
+foo, lives: 0</pre>
 
 <h2>Next steps</h2>
 
 <p>
-  Read <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/wsgi.html" target="_blank">this WSGI article</a> from the excellent <a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/" target="_blank">Twisted Web In 60 Seconds</a> series.  Or read the <a href="http://twistedmatrix.com/documents/current/api/twisted.web.wsgi.WSGIResource.html" target="_blank"><code>WSGIResource</code> source</a>
+  Read the <a href="http://twistedmatrix.com/documents/current/api/twisted.web.wsgi.WSGIResource.html" target="_blank"><code>WSGIResource</code> docs</a>.
 </p>
