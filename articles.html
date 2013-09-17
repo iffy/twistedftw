@@ -27,7 +27,7 @@
   </div>
 
   <div class="row">
-    <div class="col-md-2 sidebar" ng-controller="NavbarCtrl" ng-class="{'hidden-xs hidden-sm': !$parent.menu_showing}">
+    <div class="col-md-3 sidebar" ng-controller="NavbarCtrl" ng-class="{'hidden-xs hidden-sm': !$parent.menu_showing}">
       <ul class="supermenu">
         <li class="hidden-xs hidden-sm"><a href="./index.html">Home</a></li>
         <li ng-repeat="section in index" class="section-{{ section.name }}" ng-class="{selected: section.name == current_section.name}">
@@ -39,7 +39,7 @@
       </ul>
     </div>
 
-    <div class="col-md-10 article">
+    <div class="col-md-9 article">
       <div class="article-wrapper">
         <ng-view></ng-view>
       </div>
