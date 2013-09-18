@@ -9,7 +9,7 @@ See LICENSE for details.
   <blockquote>
     Twisted is an event-driven networking engine written in Python and licensed under the open source MIT license.
   </blockquote>
-  If you are new to Twisted or event-driven programming, the above sentence probably doesn't mean much to you.  Eventually, if you're going to get anywhere useful with Twisted, you'll need to understand how "event-driven" is different than what you're used to.  Take a look at the <a href="http://krondo.com/?page_id=1327" target="_blank">Twisted Introduction by Dave Peticolas</a> for a fantastic explanation.  Though as he explains in the introductory article
+  If you are new to Twisted or event-driven programming, the above sentence probably doesn't mean much to you.  Eventually, if you're going to do anything useful with Twisted, you'll need to understand how "event-driven" is different than what you're used to.  Take a look at the <a href="http://krondo.com/?page_id=1327" target="_blank">Twisted Introduction by Dave Peticolas</a> for a fantastic explanation.  Though as he explains in the introductory article
   <blockquote>
     Someone recently posted to the Twisted mailing list asking for something like the “Twisted introduction for people on a deadline”. Full disclosure: this isn’t it.
   </blockquote>
@@ -57,9 +57,10 @@ See LICENSE for details.
   A program using Twisted will respond to events such as:
   <ul>
     <li>bytes arriving from the network</li>
-    <li>bytes being written to a file</li>
+    <li>bytes becoming ready to read on a file descriptor</li>
     <li>user input from stdin</li>
-    <li>a file becoming ready for writing</li>
+    <li>a file descriptor becoming ready for writing</li>
+    <li>bytes being read/written from subprocess' IO streams</li>
     <li>time passing</li>
   </ul>
   The mechanism that watches for these events is called a reactor.  Here is a very (very) simplified reactor built using the standard library <a href="http://docs.python.org/2/library/select.html" target="_blank"><code>select</code></a> module.  This reactor reacts to bytes being received on sockets:
