@@ -23,13 +23,50 @@ See LICENSE for details.
 <h2>An object dedicated to registering callbacks</h2>
 
 <p>
-  To keep the reactor code small and focused, we can factor out the callback registration into an object dedicated to registering and calling callbacks.  It might look like this:
+  To keep the reactor code small and focused, we can factor out the callback registration into an object dedicated to registering and calling callbacks.  This object has no knowledge of reactors.  It might look like this:
 </p>
 
+<!-- runcode deferred1 -->
 <pre class="prettyprint lang-py" include="./txftw/core/deferred1.py"></pre>
 
+
 <p>
-  Now we can hook into the reactor (from <a href="#!/core/introduction">What is Twisted?</a>) like this:
+  And you can use it like this (copy and paste this code to see it run):
+</p>
+
+<!-- runcode deferred2 -->
+<pre class="prettyprint lang-py">class CallbackRegistry(object):
+    
+    def __init__(self):
+        self.callbacks = []
+    
+    def addCallback(self, function):
+        self.callbacks.append(function)
+    
+    def callback(self, value):
+        # We have data to give to the callbacks.  Give it to them!
+        for callback in self.callbacks:
+            value = callback(value)
+
+
+def eat(food):
+    print 'eating ' + food
+    return 'chewed up ' + food
+
+def digest(stuff):
+    print 'digesting ' + stuff
+    return 'stomach ache'
+
+r = CallbackRegistry()
+r.addCallback(eat)
+r.addCallback(digest)
+r.callback('cabbage')</pre>
+
+
+
+<h2>Oh yeah, the reactor</h2>
+<p>
+  It should be obvious that <code>CallbackRegistry</code> works on its own, by itself, without any other dependencies.  But we can use <code>CallbackRegistry</code> and <code>ExampleReactor</code> (from <a href="#!/core/introduction">What is Twisted?</a>) together like this:
 </p>
 
 <pre class="prettyprint lang-py" include="./txftw/core/deferred2.py"></pre>

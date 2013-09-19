@@ -55,6 +55,9 @@ class CallbackRegistry(object):
             value = callback(value)
 
 
+#-----------------------------------------------------------------------------
+# application code
+
 def getSomeDataThenDisconnect(reactor, port):
     # Start a server
     s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
