@@ -44,7 +44,6 @@ app.factory('Includer', function($q, $http, $templateCache, $filter) {
       $http.get(url)
         .success(function(data) {
           var stripped_data = $filter('stripCopyright')(data);
-          console.log(stripped_data);
           $templateCache.put(url, stripped_data);
           d.resolve(stripped_data);
         })
