@@ -27,7 +27,14 @@ app.factory('ArticleIndex', function($http) {
   });
 });
 
-app.factory('Includer', function($q, $http, $templateCache) {
+app.filter('stripCopyright', function() {
+  return function(x) {
+    return x.replace('# Copyright (c) The TwistedFTW Team\n' +
+                     '# See LICENSE for details.\n', '');
+  }
+});
+
+app.factory('Includer', function($q, $http, $templateCache, $filter) {
   this.get = function(url) {
     var data = $templateCache.get(url);
     var d = $q.defer();
@@ -36,8 +43,9 @@ app.factory('Includer', function($q, $http, $templateCache) {
     } else {
       $http.get(url)
         .success(function(data) {
-          $templateCache.put(url, data);
-          d.resolve(data);
+          var stripped_data = $filter('stripCopyright')(data);
+          $templateCache.put(url, stripped_data);
+          d.resolve(stripped_data);
         })
         .error(function(err) {
           d.resolve('ERROR, ERROR loading: ' + url);

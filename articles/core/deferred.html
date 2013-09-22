@@ -1,0 +1,116 @@
+<!--
+Copyright (c) The TwistedFTW Team
+See LICENSE for details.
+-->
+<h1>Deferred</h1>
+
+<p>
+  Many articles on this site stand alone.  This one does not.  Please read <a href="#!/core/introduction">What is Twisted?</a> (especially "4. It's event-driven") before you read this one.
+</p>
+
+
+<h2>Registering callbacks</h2>
+
+<p>
+  Twisted is just Python, and event-driven programming is just plain old function calls.  Event-driven function calls are initiated by an event, such as bytes being received on the network.
+</p>
+
+<p>
+  Sometimes you know that an event is going to happen that will create some data, and you know what you want to do with the data once it arrives, but the event hasn't happened yet.  What do you do?  You can register a function to be called once data is received.  This function is called a callback.  In <a href="#!/core/introduction">What is Twisted?</a>, we register a callback using the <code>setFunctionToBeCalledWhenThereIsData</code> method.
+</p>
+
+
+<h2>An object dedicated to registering callbacks</h2>
+
+<p>
+  To keep the reactor code small and focused, we can factor out the callback registration into an object dedicated to registering and calling callbacks.  This object has no knowledge of reactors.  It might look like this:
+</p>
+
+<!-- runcode deferred1 -->
+<pre class="prettyprint lang-py" include="./txftw/core/deferred1.py"></pre>
+
+
+<p>
+  And you can use it like this (copy and paste this code to see it run):
+</p>
+
+<!-- runcode deferred2 -->
+<pre class="prettyprint lang-py">class CallbackRegistry(object):
+    
+    def __init__(self):
+        self.callbacks = []
+    
+    def addCallback(self, function):
+        self.callbacks.append(function)
+    
+    def callback(self, value):
+        # We have data to give to the callbacks.  Give it to them!
+        for callback in self.callbacks:
+            value = callback(value)
+
+
+def eat(food):
+    print 'eating ' + food
+    return 'chewed up ' + food
+
+def digest(stuff):
+    print 'digesting ' + stuff
+    return 'stomach ache'
+
+r = CallbackRegistry()
+r.addCallback(eat)
+r.addCallback(digest)
+r.callback('cabbage')</pre>
+
+
+
+<h2>Oh yeah, the reactor</h2>
+<p>
+  It should be obvious that <code>CallbackRegistry</code> works on its own, by itself, without any other dependencies.  But we can use <code>CallbackRegistry</code> and <code>ExampleReactor</code> (from <a href="#!/core/introduction">What is Twisted?</a>) together like this:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/core/deferred2.py"></pre>
+
+<p>
+  Save that code in a file, run it, then send it some data with <code>nc</code>:
+</p>
+
+<pre class="prettyprint lang-bash">echo "foo" | nc 127.0.0.1 7777</pre>
+
+<p>
+  You should see <code>FOO</code> and then the server process ends.
+</p>
+
+
+
+<h2>Deferred</h2>
+
+<p>
+  In the Twisted library, the "object dedicated to registering callbacks" is <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.defer.Deferred.html" target="_blank"><code>twisted.internet.defer.Deferred</code></a>.  It is similar to the <code>CallbackRegistry</code> above, but much more robust.  Twisted's <code>Deferred</code> supports cancellation, chaining, error-handling and more.
+</p>
+
+<p>
+  Please note that <strong>Deferreds don't make code asynchronous.</strong>  The <em>reactor</em> does asynchronous things.  <code>Deferreds</code> are simply a convenience for keeping track of callback functions.
+</p>
+
+
+<h2>Next Steps</h2>
+
+<p>
+  Much has been written about Deferreds; read some of these articles:
+  <ul>
+    <li>
+      <a href="http://twistedmatrix.com/documents/current/core/howto/defer-intro.html" target="_blank">Introduction to Deferreds</a> (official docs)
+    </li>
+    <li>
+      <a href="http://twistedmatrix.com/documents/current/core/howto/defer.html" target="_blank">Deferred Reference</a> (official docs)
+    </li>
+    <li>
+      <a href="http://iffycan.blogspot.com/2012/06/bite-sized-twisted-deferreds.html" target="_blank">Bite-sized Twisted: Deferreds</a>
+    </li>
+    <li>
+      <a href="http://krondo.com/?p=1682" target="_blank">An Interlude, Deferred</a> (Dave Peticolas' introduction)
+    </li>
+  </ul>
+  If you find yourself getting frustrated, <a href="http://twistedmatrix.com/documents/current/api/twisted.internet.defer.Deferred.html" target="_blank">the source</a> is the ultimate authority on what a <code>Deferred</code> is and what it isn't.
+</p>

@@ -1,0 +1,35 @@
+<!--
+  Copyright (c) The TwistedFTW Team
+  See LICENSE for details.
+  -->
+<h1>Temporary Files</h1>
+
+<p>
+  Twisted comes with <a href="http://twistedmatrix.com/documents/current/api/twisted.trial.unittest.TestCase.html" target="_blank">twisted.trial.unittest.TestCase</a>, which includes the <code>mktemp</code> method.
+</p>
+
+<p>
+  Here are some tests which use <code>mktemp</code> and <a href="#!/utility/filepath"><code>FilePath</code></a> to test reading a custom file format:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/testing/test_mktemp.py"></pre>
+
+
+<h2>Debugging and Cleanup with <code>_trial_temp</code></h2>
+
+<p>
+  Using <code>mktemp</code> makes cleaning up and debugging tests nice because it puts the temporary files in a subdirectory named <code>_trial_temp</code>.  For instance, after executing <code>trial test_mktemp.py</code> to run the above tests, I can inspect the contents of the temporary files:
+</p>
+
+<pre class="prettyprint lang-bash">cat _trial_temp/test_mktemp/InventoryReaderTest/test_comments/hwLIPm/temp</pre>
+
+<pre class="prettyprint lang-bash">something
+#commented
+cool</pre>
+
+
+<h2>Next steps</h2>
+
+<p>
+  Read more about <a href="http://twistedmatrix.com/trac/wiki/TwistedTrial" target="_blank"><code>trial</code></a> and <a href="http://twistedmatrix.com/documents/current/core/howto/trial.html" target="_blank">Test-driven development with Twisted</a>.
+</p>

@@ -1,7 +1,6 @@
+# test_foo.py
 # Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
-
-# test_foo.py
 import unittest
 
 class TestThings(unittest.TestCase):

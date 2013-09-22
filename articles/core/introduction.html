@@ -1,0 +1,93 @@
+<!--
+Copyright (c) The TwistedFTW Team
+See LICENSE for details.
+-->
+<h1>What is Twisted?</h1>
+
+<p>
+  From <a href="http://twistedmatrix.com/trac/" target="_blank">the Twisted site</a>:
+  <blockquote>
+    Twisted is an event-driven networking engine written in Python and licensed under the open source MIT license.
+  </blockquote>
+  If you are new to Twisted or event-driven programming, the above sentence probably doesn't mean much to you.  Eventually, if you're going to do anything useful with Twisted, you'll need to understand how "event-driven" is different than what you're used to.  Take a look at the <a href="http://krondo.com/?page_id=1327" target="_blank">Twisted Introduction by Dave Peticolas</a> for a fantastic explanation.  Though as he explains in the introductory article
+  <blockquote>
+    Someone recently posted to the Twisted mailing list asking for something like the “Twisted introduction for people on a deadline”. Full disclosure: this isn’t it.
+  </blockquote>
+  If you're ready for a thorough explanation, Dave's introduction is well worth your time.  If you're still trying to figure out if it's worth your time (if you're "on a deadline"), keep reading.
+</p>
+
+
+<h2>1. It's Python</h2>
+
+<p>
+  Twisted is a <strong>Python</strong> library.  There's no magic.  It's all Python (and a teeny, tiny bit of C).  When you are tempted to think magic is afoot, remember it's just Python.
+</p>
+
+<p>
+  Because it's Python, you can use it in conjunction with other Python libraries.
+</p>
+
+<h2>2. It's open source</h2>
+
+<p>
+  <a href="http://twistedmatrix.com/trac/browser/trunk" target="_blank">All the source</a> is available to you.  If you want to know how a piece of code <em>really</em> works, you can read the code.  For some things (like Deferreds) reading the source is probably the best way to understand them.
+</p>
+
+<h2>3. It's a networking engine</h2>
+
+<p>
+  With Twisted you can make
+  <ul>
+    <li><a href="http://twistedmatrix.com/documents/current/core/howto/servers.html" target="_blank">custom servers</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/core/howto/clients.html" target="_blank">custom clients</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/web/howto/web-in-60/index.html" target="_blank">webservers (including RESTful ones)</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/words/examples/ircLogBot.py" target="_blank">IRC bots</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/mail/" target="_blank">mail servers and clients</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/names/howto/names.html" target="_blank">DNS clients and servers</a></li>
+    <li><a href="http://twistedmatrix.com/documents/current/core/howto/rdbms.html" target="_blank">SQL database clients</a></li>
+    <li>or just about any other kind of program that communicates over a network</li>
+  </ul>
+  <em>And</em> you can glue all those things together to do interesting things.
+</p>
+
+
+<h2>4. It's event-driven</h2>
+
+<p>
+  A program using Twisted will respond to events such as:
+  <ul>
+    <li>bytes arriving from the network</li>
+    <li>bytes becoming ready to read on a file descriptor</li>
+    <li>user input from stdin</li>
+    <li>a file descriptor becoming ready for writing</li>
+    <li>bytes being read/written from subprocess' IO streams</li>
+    <li>time passing</li>
+  </ul>
+  The mechanism that watches for these events is called a reactor.  Here is a very (very) simplified reactor built using the standard library <a href="http://docs.python.org/2/library/select.html" target="_blank"><code>select</code></a> module.  This reactor reacts to bytes being received on sockets:
+</p>
+
+<pre class="prettyprint lang-py" include="./txftw/core/example_select_reactor.py"></pre>
+
+<p>
+  Go ahead and run the above code (you shouldn't need to install anything).  You should immediately see <code>waiting</code> printed out.  If you wait 10 more seconds you will see a second <code>waiting</code> line.  The reactor is running!
+</p>
+
+<p>
+  Send data to your server from another terminal with <a href="http://netcat.sourceforge.net/" target="_blank"><code>nc</code></a> (or <code>telnet</code> works, too) like this:
+</p>
+
+<pre class="prettyprint lang-bash">echo "foo" | nc 127.0.0.1 7001</pre>
+
+<p>
+  The server will immediately respond to the data (an event) by calling the <code>dataReceived</code> function.  There are no threads.  It's normal, straightforward Python function calls.  This is an event-driven program.  An event drove the calling of a function.  After the function finished doing what it does, the program resumed waiting for events.
+</p>
+
+<h2>Next Steps</h2>
+
+<p>
+  Read the <a href="#!/core/deferred">next article (about Deferreds)</a>.
+</p>
+
+<p>
+  Or read the <a href="http://krondo.com/?page_id=1327" target="_blank">Twisted Introduction by Dave Peticolas</a> or check out <a href="./index.html" target="_blank">some cool things you can do with Twisted</a>.<!-- send them to learn about Deferreds now -->
+</p>
