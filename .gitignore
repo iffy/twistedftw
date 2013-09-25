@@ -4,3 +4,4 @@ twistd.log*
 _trial_temp/
 twisted/plugins/dropin.cache
 _tests/
+_site/

@@ -1,14 +1,18 @@
 # Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
 
-.PHONY: all test
+.PHONY: all test build
 
-all: test article_index.json
+all: test build
 
 clean:
 	find . -name "*.pyc" -exec rm {} \;
 	-rm -rf _trial_temp
 	-rm -rf _tests
+
+build:
+	echo "hey"
+	jekyll build
 
 article_index.json: articles/* articles/*/* bin/mkindex.py
 	python bin/mkindex.py > article_index.json
