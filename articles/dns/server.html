@@ -1,0 +1,18 @@
+<!--
+Copyright (c) The TwistedFTW Team
+See LICENSE for details.
+-->
+<h1>DNS Server</h1>
+
+<p>
+  Twisted has excellent DNS support.  Start a DNS server with a single command:
+</p>
+
+<pre class="prettyprint lang-bash">twistd --nodaemon dns --port 10053 --recursive</pre>
+
+<p>
+  Verify that it actually works using <a href="http://en.wikipedia.org/wiki/Dig_(command)" target="_blank"><code>dig</code></a>:
+</p>
+
+<pre class="prettyprint lang-bash">dig -p 10053 @localhost www.example.com A</pre>
+

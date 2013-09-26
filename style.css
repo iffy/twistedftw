@@ -193,6 +193,9 @@ See LICENSE for details.
   .section-mail {
     background: rgb(142, 68, 173);
   }
+  .section-dns {
+    background: rgb(26, 188, 156);
+  }
 
   .footer {
     padding: 1em;
