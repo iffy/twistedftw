@@ -71,6 +71,56 @@ app.directive('include', function(Includer) {
 });
 
 
+app.factory('ViewState', function($rootScope, $location, ArticleIndex) {
+  this.state = {
+    index: null,
+    path: $location.path(),
+    current_section: {},
+    current_article: {},
+    current_article_name: ''
+  };
+
+  ArticleIndex.then(function(d) {
+    this.state.index = d;
+  }.bind(this));
+
+  this.refresh = function() {
+    if (this.state.index == null) {
+      return;
+    }
+    this.state.path = $location.path();
+    var parts = this.state.path.split('/');
+    this.state.current_section = this.state.index[parts[1]];
+    this.state.current_article_name = parts[2];
+    // There must be a better way
+    if (this.state.current_section !== undefined) {
+      this.state.current_section['articles'].forEach(function(article) {
+        if (article.name == parts[2]) {
+          this.state.current_article = article;
+        }
+      }.bind(this));
+    }
+  };
+
+  $rootScope.$watch(function() {
+    return $location.path();
+  }, function() {
+    this.refresh();
+  }.bind(this));
+
+  $rootScope.$watch(function() {
+    return this.state.index;
+  }.bind(this), function() {
+    this.refresh();
+  }.bind(this), true);
+
+  return this;
+});
+
+app.controller('PageCtrl', function($scope, ViewState) {
+  $scope.state = ViewState.state;
+})
+
 app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
   PR.prettyPrint();
   $scope.pretty = function() {
@@ -78,35 +128,17 @@ app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
   }
 })
 
-app.controller('NavbarCtrl', function($scope, $location, ArticleIndex) {
-  $scope.path = $location.path();
-  $scope.current_section = {};
-  $scope.current_article_name = '';
-  $scope.current_article = {};
-  $scope.index = {};
-  ArticleIndex.then(function(d) {
-    $scope.index = d;
-  });
-
-  $scope.updateCurrents = function() {
-    $scope.path = $location.path();
-    var parts = $scope.path.split('/');
-    $scope.current_section = $scope.index[parts[1]];
-    $scope.current_article_name = parts[2];
-    // There must be a better way
-    if ($scope.current_section !== undefined) {
-      $scope.current_section['articles'].forEach(function(article) {
-        if (article.name == parts[2]) {
-          $scope.current_article = article;
-        }
-      });
-    }
+app.controller('NavbarCtrl', function($scope, ViewState) {
+  $scope.refreshState = function() {
+    $scope.path = ViewState.state.path;
+    $scope.current_section = ViewState.state.current_section;
+    $scope.current_article_name = ViewState.state.current_article_name;
+    $scope.current_article = ViewState.state.current_article;
+    $scope.index = ViewState.state.index;
   };
+  $scope.refreshState();
 
   $scope.$watch(function() {
-    return $location.path();
-  }, $scope.updateCurrents);
-  $scope.$watch(function() {
-    return $scope.index;
-  }, $scope.updateCurrents, true);
+    return ViewState.state;
+  }, $scope.refreshState, true);
 })

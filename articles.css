@@ -66,6 +66,11 @@ See LICENSE for details.
 .article-wrapper h1 {
     margin-top: 0;
 }
+.article-footer {
+    border-top: 1px solid #ddd;
+    margin-top: 1rem;
+    padding-top: 2rem;
+}
 
 h2,h3,h4,h5 {
     margin-top: 2em;
