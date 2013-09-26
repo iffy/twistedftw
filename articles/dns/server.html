@@ -4,6 +4,9 @@ See LICENSE for details.
 -->
 <h1>DNS Server</h1>
 
+
+<h2>Basic server</h2>
+
 <p>
   Twisted has excellent DNS support.  Start a DNS server with a single command:
 </p>
@@ -16,3 +19,45 @@ See LICENSE for details.
 
 <pre class="prettyprint lang-bash">dig -p 10053 @localhost www.example.com A</pre>
 
+
+<h2>Authoritative server</h2>
+
+<p>
+  Usefully, you can make your server authoritative.  Make a config file with
+  some DNS definition in it:
+</p>
+
+<pre class="prettyprint lang-python"># examplezone.py
+zone = [
+    SOA(
+        'example.com',
+        mname = "ns1.example.com",
+        rname = "dnsmaster.example.com",
+        serial = 2013092001,
+        refresh = "1H",
+        retry = "1H",
+        expire = "1H",
+        minimum = "1H"
+    ),
+
+    NS('example.com', 'ns1.example.com'),
+    MX('example.com', 0, 'mail.example.com'),
+
+    A('example.com', '192.0.2.10'),
+    CNAME('www.example.com', 'example.com'),
+    A('mail.example.com', '192.0.2.20'),
+    A('ns1.example.com', '192.0.2.30'),
+]</pre>
+
+<p>
+  Then run the server with this (Python-formatted) authority:
+</p>
+
+<pre class="prettyprint lang-bash">twistd --nodaemon dns --port 10053 --pyzone=examplezone.py</pre>
+
+<p>
+  Run <code>dig</code> and see that <code>example.com</code> has a different IP
+  than with the basic server above:
+</p>
+
+<pre class="prettyprint lang-bash">dig -p 10053 @localhost www.example.com A</pre>
