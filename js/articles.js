@@ -117,6 +117,10 @@ app.factory('ViewState', function($rootScope, $location, ArticleIndex) {
   return this;
 });
 
+app.controller('PageCtrl', function($scope, ViewState) {
+  $scope.state = ViewState.state;
+})
+
 app.controller('ArticleCtrl', function($scope, $route, $routeParams) {
   PR.prettyPrint();
   $scope.pretty = function() {

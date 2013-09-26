@@ -18,7 +18,7 @@
   }
   </style>
 </head>
-<body ng-app="article" class="col-xs-12">
+<body ng-app="article" class="col-xs-12" ng-controller="PageCtrl">
 
   <div class="row small-nav visible-xs visible-sm section-{{ current_section.name }}" ng-controller="NavbarCtrl">
     <div class="col-xs-3 nav-title"><a href="./index.html">Home</a></div>
@@ -41,7 +41,11 @@
 
     <div class="col-md-9 article">
       <div class="article-wrapper">
+        <a class="pull-right" href="https://github.com/iffy/twistedftw/edit/gh-pages/articles{{ state.path }}.html">Edit this article on Github</a>
         <ng-view></ng-view>
+        <div class="article-footer">
+          <a href="https://github.com/iffy/twistedftw/edit/gh-pages/articles{{ state.path }}.html">Edit this article on Github</a>
+        </div>
       </div>
     </div>
 
