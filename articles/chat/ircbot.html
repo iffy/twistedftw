@@ -14,11 +14,25 @@ See LICENSE for details.
 <h2>Reminder bot</h2>
 
 <p>
-  When you chat with this IRC bot, it will chat you a reminder at a certain
-  time.
+  When this IRC bot is in the room, you if you say <code>T-5</code>, the bot
+  will message you <code>BOOM!</code> after 5 seconds.  You can also have the
+  bot message you at a certain time with <code>@2:30 give me the message</code>.
+</p>
+
+<p>
+  Save the following as a file named <code>annoybot.py</code>:
 </p>
 
 <pre class="prettyprint lang-py" include="./txftw/chat/ircbot1.py"></pre>
 
+<p>
+  Then join the <code>#twistedftw</code> channel on freenode (this sometimes takes 10 seconds or longer):
+</p>
+
+<pre class="prettyprint lang-bash">python annoybot.py tcp:irc.freenode.net:6667 ${USER}_annoybot twistedftw</pre>
 
 <h2>Next steps</h2>
+
+<p>
+  Read through some <a href="http://twistedmatrix.com/documents/current/words/examples/index.html" target="_blank">Twisted Words code examples</a>.
+</p>

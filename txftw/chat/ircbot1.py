@@ -1,8 +1,8 @@
 # Copyright (c) The TwistedFTW Team
 # See LICENSE for details.
-
+# annoybot.py
 from twisted.words.protocols import irc
-from twisted.internet import reactor, protocol
+from twisted.internet import reactor, endpoints
 from twisted.python import log
 from datetime import datetime, timedelta
 import re
@@ -11,12 +11,14 @@ import sys
 
 class Annoyer(irc.IRCClient):
     
-    nickname = "annoy"
+    nickname = 'annoy'
+    channel = '#foo'
     default_fuse_msg = 'BOOM!'
+
     r_timestr = re.compile(r'''
-        ([0-2]?[0-9]) # hours
+        ([0-2]?[0-9])       # hours
         (?:\:([0-5][0-9]))? # minutes
-        (am|pm)? # am/pm
+        (am|pm)?            # am/pm
         ''', re.I | re.X)
 
 
@@ -25,7 +27,7 @@ class Annoyer(irc.IRCClient):
 
 
     def signedOn(self):
-        self.join(self.factory.channel)
+        self.join(self.channel)
 
 
     def now(self):
@@ -34,8 +36,10 @@ class Annoyer(irc.IRCClient):
 
     def timeStrToDatetime(self, input_str):
         """
-        Convert a string representation of the time to a datetime relative to
-        the current time.  For instance, if it's 3:22pm right now, then
+        Convert a string representation of a time to the soonest possible
+        datetime after the current time.
+
+        For instance, if it's 3:22pm right now, then
 
             '4'       -> 4pm
             '3'       -> 3am the next day
@@ -45,6 +49,7 @@ class Annoyer(irc.IRCClient):
         """
         m = self.r_timestr.match(input_str)
         hours, minutes, ampm = m.groups()
+        
         hours = int(hours)
         hour_interval = 12
         if ampm == 'pm':
@@ -53,7 +58,9 @@ class Annoyer(irc.IRCClient):
         elif ampm == 'am':
             hours %= 12
             hour_interval = 24
+        
         minutes = int(minutes or '0')
+        
         now = self.now()
         t = now.replace(hour=hours, minute=minutes, second=0)
         while t <= now:
@@ -63,7 +70,8 @@ class Annoyer(irc.IRCClient):
 
     def lightFuse(self, channel, seconds, msg=None, user=None):
         """
-        Light a fuse to go off in C{seconds} seconds.
+        Light a fuse for a message to be sent on a channel
+        in C{seconds} seconds.
         """
         msg = msg or self.default_fuse_msg
         if user:
@@ -76,51 +84,44 @@ class Annoyer(irc.IRCClient):
         Handle a message being received
         """
         user = user.split('!', 1)[0]
-
-        response_channel = channel
         response_prefix = user
         
         # private message
         if channel == self.nickname:
-            # prepare to send a priv
-            response_channel = user
+            # prepare to send a private message
+            channel = user
             response_prefix = None
 
-        self.messageReceived(response_prefix, response_channel, msg)
-
-
-    def messageReceived(self, prefix, channel, msg):
+        # interpret the message as a command
         msg = msg.strip()
         parts = msg.split(' ')
-        if parts[0].startswith('@'):
+
+        if msg.startswith('@'):
             # @ command
             t = self.timeStrToDatetime(parts[0][1:])
             diff = t - self.now()
-            self.lightFuse(channel, diff.seconds, ' '.join(parts[1:]), prefix)
-        elif parts[0].lower().startswith('t-'):
+            self.lightFuse(channel, diff.seconds, ' '.join(parts[1:]),
+                           response_prefix)
+        
+        elif msg.lower().startswith('t-'):
             # t- command
             seconds = int(parts[0][2:])
-            self.lightFuse(channel, seconds, ' '.join(parts[1:]), prefix)
+            self.lightFuse(channel, seconds, ' '.join(parts[1:]),
+                           response_prefix)
 
 
     def alterCollidedNick(self, nickname):
         return nickname + '_'
 
 
-
-class AnnoyerFactory(protocol.ClientFactory):
-
-    protocol = Annoyer
-
-    def __init__(self, channel):
-        self.channel = channel
-
-    def clientConnectionLost(self, connector, reason):
-        connector.connect()
-
-
 if __name__ == '__main__':
     log.startLogging(sys.stdout)
-    f = AnnoyerFactory('#foo')
-    reactor.connectTCP("10.1.15.7", 6667, f)
+    server, botname, room = sys.argv[1:]
+    
+    proto = Annoyer()
+    proto.channel = '#'+room
+    proto.nickname = botname
+
+    ep = endpoints.clientFromString(reactor, server)
+    endpoints.connectProtocol(ep, proto)
     reactor.run()
