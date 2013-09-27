@@ -108,12 +108,8 @@ See LICENSE for details.
     color: rgb(189, 195, 199);
   }
   .spotlight .content {
-    max-height: 16em;
+    height: 16rem;
     overflow-y: hidden;
-  }
-  .spotlight .content.expanded {
-    height: inherit;
-    max-height: inherit;
   }
   .spotlight .whatyoucando {
     color: rgb(241, 196, 15);
@@ -125,6 +121,9 @@ See LICENSE for details.
   .spotlight .controls {
     margin-top: 1em;
     margin-bottom: 1em;
+  }
+  .spotlight .controls div {
+    text-align: right;
   }
   .section {
     background: rgb(52, 73, 94);

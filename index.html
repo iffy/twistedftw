@@ -23,21 +23,17 @@
     </div>
 
     <div class="spotlight" ng-controller="CarouselCtrl">
-      <div class="content" ng-class="{expanded: expanded}">
+      <div class="content">
         <h2>#{{ index+1 }} With Twisted you can <span class="whatyoucando">{{ showing.ability }}</span></h2>
         <div class="spotlight-guts" ng-bind-html-unsafe="showing.content">
           
         </div>
       </div>
       <div class="row controls">
-        <div class="col-xs-6">
+        <div class="col-xs-12 text-right">
           <button class="btn btn-link" ng-click="prev()">&lt;</button>
           <button class="btn btn-link" ng-click="paused=!paused">{{ (paused && 'Resume' || 'Pause') }}</button>
           <button class="btn btn-link" ng-click="next()">&gt;</button>
-        </div>
-
-        <div class="col-xs-6 right">
-          <button class="btn btn-link" ng-click="expanded=!expanded">{{ (expanded && 'Collapse' || 'Expand') }}</button>
         </div>
       </div>
     </div>
