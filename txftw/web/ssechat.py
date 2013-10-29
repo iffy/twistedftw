@@ -5,7 +5,7 @@ from twisted.internet import defer
 import json
 
 
-class ChatApp:
+class ChatApp(object):
 
     app = Klein()
 
