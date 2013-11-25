@@ -28,7 +28,7 @@ def printMessage():
 def main(reactor):
     return deferLater(reactor, 1, printMessage)
 
-react(main)</pre>
+react(main, [])</pre>
 
 <p>
 	The program will wait 1 second, print <code>Hello, world!</code>, then exit with exit code 0.

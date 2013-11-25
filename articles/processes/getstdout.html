@@ -53,7 +53,7 @@ def main(reactor):
         result_list.append(getProcessValue('/bin/sleep', ['2']).addCallback(printResult))
     return defer.gatherResults(result_list)
 
-react(main)
+react(main, [])
 </pre>
 
 <h2>Next steps</h2>
